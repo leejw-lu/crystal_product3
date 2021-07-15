@@ -43,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String strEmail=nEtEmail.getText().toString();
                 String strPwd=nEtPwd.getText().toString();
 
+                //
                 //Firebase Auth 진행
                 nFirebaseAuth.createUserWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -67,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
             }
         });
+
 
 
     }
