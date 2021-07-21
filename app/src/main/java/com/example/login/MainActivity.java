@@ -20,7 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
-
 public class MainActivity extends AppCompatActivity {
 
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //
         bnv = findViewById(R.id.bottomNavi);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         f5 = new Frag5();
 
         setFrag(0); // 첫 프래그먼트 화면을 무엇으로 지정해줄 것인지 선택
+
     }
 
     private void setFrag(int n) {
@@ -101,26 +101,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-
-//성원이 MainActivity 전체 코드
-//
-//    package com.example.productlist;
-//
-//    import androidx.appcompat.app.AppCompatActivity;
-//    import androidx.recyclerview.widget.LinearLayoutManager;
-//    import androidx.recyclerview.widget.RecyclerView;
-//
-//    import android.os.Bundle;
-//
-//    public class MainActivity extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        RecyclerView view = (RecyclerView)findViewById(R.id.main_recyclerview);
-//        view.setLayoutManager(new LinearLayoutManager(this));
-//        view.setAdapter(new MyRecyclerViewAdapter());
-//    }
-//}

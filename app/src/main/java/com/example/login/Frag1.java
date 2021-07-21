@@ -32,51 +32,6 @@ public class Frag1 extends Fragment {
         view2.setAdapter(new MyRecyclerViewAdapter());
         return view;
            }
-//////////////////////////////////////////////////////////////////////////////
-//    카드 뷰 올리는 코드인데 오류,,
-//    private RecyclerView mRecyclerView;
-//    private RecyclerView.Adapter mAdapter;
-//    private RecyclerView.LayoutManager mLayoutManager;
-//
-//    public Frag1(){
-//
-//
-//    }
-//
-//    @Nullable
-//    @org.jetbrains.annotations.Nullable
-//    @Override
-//    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-//       View view = inflater.inflate(R.layout.frag1_home, container, false);
-//
-//        if (view instanceof RecyclerView) {
-//
-//
-//            Context context = view.getContext();
-//
-//            RecyclerView mRecyclerView = (RecyclerView) view;
-//
-//
-//            mRecyclerView.setHasFixedSize(true);
-//
-//
-//            // use a linear layout manager
-//
-//            mLayoutManager = new LinearLayoutManager(context);
-//
-//            mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//
-//            // specify an adapter (see also next example)
-//
-//            mAdapter = new CollectionListAdapter(mRecyclerView);
-//
-//            mRecyclerView.setAdapter(mAdapter);
-//
-//        }
-//        return view;
-//    }
-////////////////////////////////////////////////////////////////////
 
 }
 
