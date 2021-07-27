@@ -1,6 +1,12 @@
 package com.example.login;
 
+import android.Manifest;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.content.CursorLoader;
 
 public class Frag4 extends Fragment {
     private View view;
@@ -18,6 +25,17 @@ public class Frag4 extends Fragment {
     {
         view = inflater.inflate(R.layout.frag4_create, container,false);
 
+        //양성원 추가 (갤러리 권한)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+        }
+
+        //양성원 추가 (갤러리 불러오기)
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivity(intent);
+
         return view;
-           }
+    }
+
 }

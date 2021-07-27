@@ -1,29 +1,40 @@
 package com.example.login;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    //양성원 추가
+    private FirebaseAuth auth;
+
     private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
+    private Object CustomViewHolder;
+
     public MyRecyclerViewAdapter() {
         cardViewItemDTOS.add(new CardViewItemDTO(R.drawable.snowball,"스노우볼","수요조사 진행 중"));
         cardViewItemDTOS.add(new CardViewItemDTO(R.drawable.mugcup,"머그컵","7,000원"));
         cardViewItemDTOS.add(new CardViewItemDTO(R.drawable.milkkeyring,"우유키링","7,500원"));
     }
 
-    @NonNull
-    @org.jetbrains.annotations.NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //XML 세팅
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item,parent,false);
@@ -32,11 +43,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((RowCell)holder).imageView.setImageResource(cardViewItemDTOS.get(position).imageview);
         ((RowCell)holder).title.setText(cardViewItemDTOS.get(position).title);
         ((RowCell)holder).subtitle.setText(cardViewItemDTOS.get(position).subtitle);
         //아이템 세팅
+
+        //양성원 추가
+        ((RowCell) holder).heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //수정 : 이미지 접근해야 함.
+                //onStarClicked();
+            }
+        });
     }
 
     @Override
@@ -45,15 +66,56 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return cardViewItemDTOS.size();
     }
 
+    //양성원 추가
+    private void onStarClicked(DatabaseReference postRef) {
+        auth = FirebaseAuth.getInstance();
+        postRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                CardViewItemDTO cardViewItemDTO = mutableData.getValue(CardViewItemDTO.class);
+                if (cardViewItemDTO == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                if (cardViewItemDTO.stars.containsKey(auth.getCurrentUser().getUid())) {
+                    // Unstar the post and remove self from stars
+                    cardViewItemDTO.starCount = cardViewItemDTO.starCount - 1;
+                    cardViewItemDTO.stars.remove(auth.getCurrentUser().getUid());
+                } else {
+                    // Star the post and add self to stars
+                    cardViewItemDTO.starCount = cardViewItemDTO.starCount + 1;
+                    cardViewItemDTO.stars.put(auth.getCurrentUser().getUid(), true);
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(cardViewItemDTO);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError error, boolean committed, DataSnapshot currentData) {
+                // Transaction completed
+
+            }
+
+        });
+    }
+
+
     private static class RowCell extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView title;
         public TextView subtitle;
+        //양성원 추가
+        ImageView heartButton;
+
         public RowCell(View view) {
             super(view);
             imageView = (ImageView)view.findViewById(R.id.cardview_imageview);
             title = (TextView)view.findViewById(R.id.cardview_title);
             subtitle = (TextView)view.findViewById(R.id.cardview_subtitle);
+            //양성원 추가
+            heartButton = (ImageView)view.findViewById(R.id.btn_heart);
         }
     }
 }

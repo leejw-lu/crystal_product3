@@ -1,24 +1,30 @@
 package com.example.login;
 
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.loader.content.CursorLoader;
 
-import android.os.Bundle;
-import android.view.MenuItem;
 
-import com.example.login.Frag1;
-import com.example.login.Frag2;
-import com.example.login.Frag3;
-import com.example.login.Frag4;
-import com.example.login.Frag5;
-import com.example.login.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private Frag3 f3;
     private Frag4 f4;
     private Frag5 f5;
+    private static final int GALLERY_CODE = 10; //양성원 추가
+    private FirebaseAuth auth; //양성원 추가 (없어도 될지도)
+    private FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        storage = FirebaseStorage.getInstance();
+
         //
         bnv = findViewById(R.id.bottomNavi);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,5 +110,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //양성원 추가 이미지 결과값)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_CODE) {
 
+            StorageReference storageRef = storage.getReference("gs://fir-emailaccount-7b951.appspot.com");  //firebase starage 경로
+
+            //로컬 파일에서 업로드하기
+            Uri file = Uri.fromFile(new File(getPath(data.getData())));
+            StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
+            UploadTask uploadTask = riversRef.putFile(file);
+
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    // 성공했을 때, 처리하는 곳
+                }
+            });
+
+        }
+    }
+
+    //양성원 추가 (파일 경로 가져오기)
+    public String getPath(Uri uri){
+        String [] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader cursorLoader;
+        cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
+
+        Cursor cursor = cursorLoader.loadInBackground();
+        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+
+        return  cursor.getString(index);
+    }
 }

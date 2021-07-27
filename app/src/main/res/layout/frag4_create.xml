@@ -10,8 +10,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="글쓰기 - 뭐나와야하징"
-        android:textSize="50dp" />
+        android:text="제목"
+        android:textSize="30dp" />
+
+
 
 
 </LinearLayout>
