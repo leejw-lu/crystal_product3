@@ -7,11 +7,9 @@
     android:orientation="vertical"
     android:layout_gravity="center" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="캘린더 구현 - 판매기간 / 공구 일정 자동 등록,,"
-        android:textSize="50dp" />
 
-
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

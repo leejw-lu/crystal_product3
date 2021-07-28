@@ -23,6 +23,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
 
@@ -47,7 +48,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         storage = FirebaseStorage.getInstance();
 
-        //
+        //툴바
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        /////////////////
         bnv = findViewById(R.id.bottomNavi);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
