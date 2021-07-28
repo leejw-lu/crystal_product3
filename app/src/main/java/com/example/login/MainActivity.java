@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth; //양성원 추가 (없어도 될지도)
     private FirebaseStorage storage;
 
+    private ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,23 @@ public class MainActivity extends AppCompatActivity {
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+
+        // 툴바 활성화
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        // 툴바 기본 타이틀 없애기
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        // 햄버거 버튼 불러오기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
+
+//        // 툴바에 적힐 제목
+//        getSupportActionBar().setTitle("수정물산");
+//        getSupportActionBar().setHomeButtonEnabled(true);
+
 
 
         /////////////////
@@ -160,4 +179,18 @@ public class MainActivity extends AppCompatActivity {
 
         return  cursor.getString(index);
     }
+
+/// drawer 코드 추가해야됨
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//
+//        switch (id){
+//            case android.R.id.home: // 툴바의 햄버거를 클릭하면 drawer 열리게
+//                main_layout.openDrawer(drawerView);
+//                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }
