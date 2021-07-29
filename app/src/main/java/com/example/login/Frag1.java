@@ -20,8 +20,6 @@ public class Frag1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.frag1_home, container,false);
-//        recyclerView = view.findViewById(R.id.main_recyclerview);
-//        setContentView(R.layout.activity_main);
 
         RecyclerView view2 = (RecyclerView)view.findViewById(R.id.main_recyclerview);
         view2.setLayoutManager(new LinearLayoutManager(getContext()));
