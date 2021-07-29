@@ -14,13 +14,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private List<String> uidLists = new ArrayList<>();
+    private FirebaseDatabase database;
     private FirebaseAuth auth;
 
     private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
@@ -43,6 +46,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        database = FirebaseDatabase.getInstance();
         ((RowCell)holder).imageView.setImageResource(cardViewItemDTOS.get(position).imageview);
         ((RowCell)holder).title.setText(cardViewItemDTOS.get(position).title);
         ((RowCell)holder).subtitle.setText(cardViewItemDTOS.get(position).subtitle);
@@ -52,8 +56,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
 
-                //수정 : 이미지 접근해야 함.
-                //onStarClicked();
+                onStarClicked(database.getReference().child("images").child(uidLists.get(position)));
             }
         });
     }

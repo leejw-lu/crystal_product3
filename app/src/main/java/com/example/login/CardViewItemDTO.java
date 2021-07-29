@@ -7,7 +7,6 @@ public class CardViewItemDTO {
     public int imageview;
     public String title;
     public String subtitle;
-    //양성원 추가
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 

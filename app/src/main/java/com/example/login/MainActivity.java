@@ -48,15 +48,17 @@ public class MainActivity extends AppCompatActivity {
     private Frag3 f3;
     private Frag4 f4;
     private Frag5 f5;
-    private static final int GALLERY_CODE = 10;
+    //frag4 >> private static final int GALLERY_CODE = 10;
     private FirebaseAuth auth;
+    //frag4 >>
+    /*
     private FirebaseStorage storage;
-    private FirebaseDatabase database;   //양성원 : 데이터 베이스 추가
+    private FirebaseDatabase database;
     private ImageView imageView;
     private EditText title;
     private EditText description;
     private Button button;
-    private String imagePath;
+    private String imagePath;*/
 
     private ActionBar actionBar;
 
@@ -64,22 +66,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
+        //frag4 >> storage = FirebaseStorage.getInstance();
+        //frag4 >> database = FirebaseDatabase.getInstance();
 
+        //frag4
+        /*
         imageView = (ImageView)findViewById(R.id.imageView);
         title = (EditText)findViewById(R.id.title);
         description = (EditText)findViewById(R.id.description);
         button = (Button)findViewById(R.id.button_upload);
-/*      //오류생긴부분
+        //오류생긴부분
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 upload(imagePath);
             }
-        });*/
+        });
+        */
 
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -166,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //frag4 >>
+    /*
     //양성원 추가 이미지 결과값)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -231,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                     //Toast.makeText(EditUserProfile.this, "Image uploading failed ", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
         /* 원래 코드 (버전 때문에 바뀌어야 함)
         // Register observers to listen for when the download is done or if it fails
@@ -246,6 +252,6 @@ public class MainActivity extends AppCompatActivity {
                 @SuppressWarnings("VisibleForTests")
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
             }
-        });*/
-    }
+        });
+    }*/
 }
