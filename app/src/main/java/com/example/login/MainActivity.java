@@ -7,6 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,10 +21,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
 
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -39,9 +48,15 @@ public class MainActivity extends AppCompatActivity {
     private Frag3 f3;
     private Frag4 f4;
     private Frag5 f5;
-    private static final int GALLERY_CODE = 10; //양성원 추가
-    private FirebaseAuth auth; //양성원 추가 (없어도 될지도)
+    private static final int GALLERY_CODE = 10;
+    private FirebaseAuth auth;
     private FirebaseStorage storage;
+    private FirebaseDatabase database;   //양성원 : 데이터 베이스 추가
+    private ImageView imageView;
+    private EditText title;
+    private EditText description;
+    private Button button;
+    private String imagePath;
 
     private ActionBar actionBar;
 
@@ -50,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         storage = FirebaseStorage.getInstance();
+        auth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        database = FirebaseDatabase.getInstance();
+
+        imageView = (ImageView)findViewById(R.id.imageView);
+        title = (EditText)findViewById(R.id.title);
+        description = (EditText)findViewById(R.id.description);
+        button = (Button)findViewById(R.id.button_upload);
+/*      //오류생긴부분
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upload(imagePath);
+            }
+        });*/
 
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -141,32 +171,12 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_CODE) {
-
-            StorageReference storageRef = storage.getReference("gs://fir-emailaccount-7b951.appspot.com");  //firebase starage 경로
-
-            //로컬 파일에서 업로드하기
-            Uri file = Uri.fromFile(new File(getPath(data.getData())));
-            StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
-            UploadTask uploadTask = riversRef.putFile(file);
-
-            // Register observers to listen for when the download is done or if it fails
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                    // 성공했을 때, 처리하는 곳
-                }
-            });
-
+            imagePath = getPath(data.getData());
+            File f = new File(imagePath);
+            imageView.setImageURI(Uri.fromFile(f));
         }
     }
 
-    //양성원 추가 (파일 경로 가져오기)
     public String getPath(Uri uri){
         String [] proj = {MediaStore.Images.Media.DATA};
         CursorLoader cursorLoader;
@@ -180,17 +190,62 @@ public class MainActivity extends AppCompatActivity {
         return  cursor.getString(index);
     }
 
-/// drawer 코드 추가해야됨
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//
-//        switch (id){
-//            case android.R.id.home: // 툴바의 햄버거를 클릭하면 drawer 열리게
-//                main_layout.openDrawer(drawerView);
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    private void upload(String uri){
+        StorageReference storageRef = storage.getReference("gs://fir-emailaccount-7b951.appspot.com");
+
+        Uri file = Uri.fromFile(new File(uri));
+        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
+        UploadTask uploadTask = riversRef.putFile(file);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return riversRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUrl = task.getResult();
+
+                    //this is the uri you needed...
+                    //uploaded_image_url = downloadUri.toString();
+
+                    ImageDTO imageDTO = new ImageDTO();
+                    imageDTO.imageUrl = downloadUrl.toString();
+                    imageDTO.title = title.getText().toString();
+                    imageDTO.description = description.getText().toString();
+                    imageDTO.uid = auth.getCurrentUser().getUid();
+                    imageDTO.userId = auth.getCurrentUser().getEmail();
+
+                    database.getReference().child("images").push().setValue(imageDTO);
+
+                } else {
+                    // Handle failures
+                    // ...
+                    //Toast.makeText(EditUserProfile.this, "Image uploading failed ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        /* 원래 코드 (버전 때문에 바뀌어야 함)
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                @SuppressWarnings("VisibleForTests")
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+            }
+        });*/
+    }
 }

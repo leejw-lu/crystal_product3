@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //양성원 추가
     private FirebaseAuth auth;
 
     private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
@@ -49,7 +48,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((RowCell)holder).subtitle.setText(cardViewItemDTOS.get(position).subtitle);
         //아이템 세팅
 
-        //양성원 추가
         ((RowCell) holder).heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +64,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return cardViewItemDTOS.size();
     }
 
-    //양성원 추가
     private void onStarClicked(DatabaseReference postRef) {
         auth = FirebaseAuth.getInstance();
         postRef.runTransaction(new Transaction.Handler() {
@@ -106,7 +103,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ImageView imageView;
         public TextView title;
         public TextView subtitle;
-        //양성원 추가
         ImageView heartButton;
 
         public RowCell(View view) {
@@ -114,7 +110,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             imageView = (ImageView)view.findViewById(R.id.cardview_imageview);
             title = (TextView)view.findViewById(R.id.cardview_title);
             subtitle = (TextView)view.findViewById(R.id.cardview_subtitle);
-            //양성원 추가
             heartButton = (ImageView)view.findViewById(R.id.btn_heart);
         }
     }

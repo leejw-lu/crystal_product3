@@ -48,6 +48,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.google.firebase:firebase-storage' //양성원 추가 (firebase 저장소 추가)
-    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+    implementation 'com.google.firebase:firebase-storage:20.0.0' //양성원 : database와 storage 충돌 발생 할 수도 있으므로 버전 맞춤.
+    //implementation platform('com.google.firebase:firebase-bom:28.2.1')
 }
