@@ -26,17 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Frag3 f3;
     private Frag4 f4;
     private Frag5 f5;
-    //frag4 >> private static final int GALLERY_CODE = 10;
     private FirebaseAuth auth;
-    //frag4 >>
-    /*
-    private FirebaseStorage storage;
-    private FirebaseDatabase database;
-    private ImageView imageView;
-    private EditText title;
-    private EditText description;
-    private Button button;
-    private String imagePath;*/
 
     private ActionBar actionBar;
 
@@ -45,23 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
-        //frag4 >> storage = FirebaseStorage.getInstance();
-        //frag4 >> database = FirebaseDatabase.getInstance();
-
-        //frag4
-        /*
-        imageView = (ImageView)findViewById(R.id.imageView);
-        title = (EditText)findViewById(R.id.title);
-        description = (EditText)findViewById(R.id.description);
-        button = (Button)findViewById(R.id.button_upload);
-        //오류생긴부분
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                upload(imagePath);
-            }
-        });
-        */
 
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -148,88 +121,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //frag4 >>
-    /*
-    //양성원 추가 이미지 결과값)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_CODE) {
-            imagePath = getPath(data.getData());
-            File f = new File(imagePath);
-            imageView.setImageURI(Uri.fromFile(f));
-        }
-    }
-
-    public String getPath(Uri uri){
-        String [] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader;
-        cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
-
-        Cursor cursor = cursorLoader.loadInBackground();
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-        cursor.moveToFirst();
-
-        return  cursor.getString(index);
-    }
-
-    private void upload(String uri){
-        StorageReference storageRef = storage.getReference("gs://fir-emailaccount-7b951.appspot.com");
-
-        Uri file = Uri.fromFile(new File(uri));
-        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
-        UploadTask uploadTask = riversRef.putFile(file);
-
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-
-                // Continue with the task to get the download URL
-                return riversRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUrl = task.getResult();
-
-                    //this is the uri you needed...
-                    //uploaded_image_url = downloadUri.toString();
-
-                    ImageDTO imageDTO = new ImageDTO();
-                    imageDTO.imageUrl = downloadUrl.toString();
-                    imageDTO.title = title.getText().toString();
-                    imageDTO.description = description.getText().toString();
-                    imageDTO.uid = auth.getCurrentUser().getUid();
-                    imageDTO.userId = auth.getCurrentUser().getEmail();
-
-                    database.getReference().child("images").push().setValue(imageDTO);
-
-                } else {
-                    // Handle failures
-                    // ...
-                    //Toast.makeText(EditUserProfile.this, "Image uploading failed ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-
-        /* 원래 코드 (버전 때문에 바뀌어야 함)
-        // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests")
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            }
-        });
-    }*/
 }

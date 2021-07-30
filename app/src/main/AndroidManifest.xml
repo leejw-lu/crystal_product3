@@ -4,6 +4,8 @@
 
     <!--양성원 추가 (갤러리 권한 물어보기)-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 인터넷 사용 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
