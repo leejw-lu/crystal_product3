@@ -89,7 +89,6 @@ public class Frag4 extends Fragment {
             imageUrl = getRealPathFromUri(data.getData());
             File f = new File(imageUrl);
             ivProfile.setImageURI(Uri.fromFile(f));
-
         }
     }
 

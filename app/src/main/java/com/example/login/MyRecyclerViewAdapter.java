@@ -1,27 +1,28 @@
 package com.example.login;
 
-import android.os.Bundle;
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    //카드뷰변수
     private List<String> uidLists = new ArrayList<>();
     private FirebaseDatabase database;
     private FirebaseAuth auth;
@@ -29,6 +30,78 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
     private Object CustomViewHolder;
 
+    //지우--변수추가
+    private List<ImageDTO> imageDTOList = new ArrayList<>();
+    private List<String> uidList = new ArrayList<>();
+    private FirebaseStorage storage;
+    private Context context;
+    //private Instant Glide;
+
+    //
+    public MyRecyclerViewAdapter(){}    //생성자
+    public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList)
+    {
+        this.imageDTOList = imageDTOList;
+        this.uidList = uidList;
+        this.context=context;   //이건 내가 추가.
+        storage = FirebaseStorage.getInstance();
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.uploaded_image_item,parent,false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+        //holder.textViewUser.setText(imageDTOList.get(position).getUserId()); //fragment라 그런지 ViewHolder안하면 오류남.
+        ((ViewHolder)holder).textViewUser.setText(imageDTOList.get(position).getUserId());
+        ((ViewHolder)holder).textViewTitle.setText(imageDTOList.get(position).getTitle());
+        ((ViewHolder)holder).textViewDesc.setText(imageDTOList.get(position).getDescription());
+        ((ViewHolder)holder).imageViewHeart.setImageResource(R.drawable.heart_off);
+
+        context = holder.itemView.getContext();
+        String url = imageDTOList.get(position).getImageUrl();
+
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.base_image_frag4)   // 로딩전 잠깐 보여주는 이미지.
+                .into(((ViewHolder) holder).imageView);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return imageDTOList.size();
+    }
+
+    //ViewHolder 클래스
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
+        public TextView textViewUser;
+        public TextView textViewTitle;
+        public TextView textViewDesc;
+        public ImageView imageView;
+        public ImageView imageViewHeart;
+
+        public ViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            textViewUser = itemView.findViewById(R.id.item_user);
+            textViewTitle = itemView.findViewById(R.id.item_title); //파라메타 id 찾기
+            textViewDesc = itemView.findViewById(R.id.item_desc);
+            imageView = itemView.findViewById(R.id.item_image);
+            imageViewHeart= itemView.findViewById(R.id.item_heart);
+        }
+    }
+
+
+    /*------기본 item3개 세팅하기.
     public MyRecyclerViewAdapter() {
         cardViewItemDTOS.add(new CardViewItemDTO(R.drawable.snowball,"스노우볼","수요조사 진행 중"));
         cardViewItemDTOS.add(new CardViewItemDTO(R.drawable.mugcup,"머그컵","7,000원"));
@@ -116,5 +189,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             heartButton = (ImageView)view.findViewById(R.id.btn_heart);
         }
     }
+    */
+
+
+
+
 }
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    //textViewUser = itemView.findViewById(R.id.item_user);
+    //textViewTitle = itemView.findViewById(R.id.item_title); //파라메타 id 찾기
+    //textViewDesc = itemView.findViewById(R.id.item_desc);
+    //imageView = itemView.findViewById(R.id.item_image);
+    //imageViewHeart= itemView.findViewById(R.id.item_heart);
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_user"
+                android:layout_gravity="center_vertical"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="3dp"
+                android:text="username"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="150dp"
+                android:layout_height="156dp"
+                android:padding="5dp"
+                app:srcCompat="@color/purple_200" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:id="@+id/item_title"
+                android:layout_toEndOf="@+id/item_image"
+                android:padding="3dp"
+                android:layout_toRightOf="@+id/item_image" />
+
+            <TextView
+                android:id="@+id/item_desc"
+                android:layout_width="250dp"
+                android:layout_height="110dp"
+                android:layout_toRightOf="@+id/item_image"
+                android:layout_below="@+id/item_title"
+                android:padding="3dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/heart_off"
+                android:id="@+id/item_heart"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
