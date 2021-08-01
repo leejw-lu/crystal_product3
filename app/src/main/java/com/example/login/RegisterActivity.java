@@ -1,6 +1,8 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,33 +46,50 @@ public class RegisterActivity extends AppCompatActivity {
                 String strPwd=nEtPwd.getText().toString();
 
                 //
+                if(TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd)){
+                    Toast.makeText(RegisterActivity.this,"모두 입력하십시오.",Toast.LENGTH_SHORT).show();
+                } else if (strPwd.length() <6){
+                    Toast.makeText(RegisterActivity.this,"비밀번호는 6자리 이상입니다.",Toast.LENGTH_SHORT).show();
+                } else{
 
-                //Firebase Auth 진행
-                nFirebaseAuth.createUserWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            FirebaseUser firebaseUser=nFirebaseAuth.getCurrentUser();
-                            UserAccount account=new UserAccount();
-                            account.setIdToken(firebaseUser.getUid());
-                            account.setEmailId(firebaseUser.getEmail());
-                            account.setPassword(strPwd);
+                    //Firebase Auth 진행
+                    nFirebaseAuth.createUserWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                FirebaseUser firebaseUser=nFirebaseAuth.getCurrentUser();
+                                UserAccount account=new UserAccount();
+                                account.setIdToken(firebaseUser.getUid());
+                                account.setEmailId(firebaseUser.getEmail());
+                                account.setPassword(strPwd);
 
 
-                            //setValue : database에 insert(삽입) 행위
-                            nDataBaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+                                //setValue : database에 insert(삽입) 행위
+                                nDataBaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 
-                            Toast.makeText(RegisterActivity.this,"회원가입에 성공하셨습니다.",Toast.LENGTH_SHORT).show();
-                        } else{
-                            Toast.makeText(RegisterActivity.this,"회원가입에 실패하셨습니다.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this,"회원가입에 성공하셨습니다.",Toast.LENGTH_SHORT).show();
+                            } else{
+                                Toast.makeText(RegisterActivity.this,"회원가입에 실패하셨습니다.",Toast.LENGTH_SHORT).show();
+                            }
+
                         }
+                    });
 
-                    }
-                });
+                }
+
             }
         });
 
-
+        //회원가입 끝낸 후, login버튼
+        Button login_go=findViewById(R.id.login_go);
+        login_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //회원가입 화면으로 이동.
+                Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

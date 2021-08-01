@@ -2,6 +2,7 @@ package com.example.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,23 +45,27 @@ public class LoginActivity extends AppCompatActivity {
                 String strEmail=nEtEmail.getText().toString();
                 String strPwd=nEtPwd.getText().toString();
 
-                nFirebaseAuth.signInWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            //로그인 성공!!
-                            Intent intent= new Intent(LoginActivity.this, com.example.login.MainActivity.class);
-                            startActivity(intent);
-                            finish(); //현재 액티비티 파괴
-                        } else{
-                            Toast.makeText(LoginActivity.this,"로그인 실패",Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd)){
+                    Toast.makeText(LoginActivity.this,"모두 입력하십시오.",Toast.LENGTH_SHORT).show();
+                } else {
+                    nFirebaseAuth.signInWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                //로그인 성공!!
+                                Intent intent= new Intent(LoginActivity.this, com.example.login.MainActivity.class);
+                                startActivity(intent);
+                                finish(); //현재 액티비티 파괴
+                            } else{
+                                Toast.makeText(LoginActivity.this,"로그인 실패",Toast.LENGTH_SHORT).show();
 
+                            }
                         }
-                    }
-                });
+                    });
+
+                }
             }
         });
-
 
         Button btn_register=findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
     }
 }
