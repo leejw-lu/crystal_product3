@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +31,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<String> uidLists = new ArrayList<>();
     private FirebaseDatabase database;
     private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
     private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
     private Object CustomViewHolder;
@@ -64,9 +65,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, final int position) {
         //holder.textViewUser.setText(imageDTOList.get(position).getUserId()); //fragment라 그런지 ViewHolder안하면 오류남.
         //((ViewHolder)holder).textViewUser.setText(imageDTOList.get(position).getUserId());
+
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final ImageDTO imageDTO = imageDTOList.get(position);
+
+
         ((ViewHolder)holder).textViewTitle.setText(imageDTOList.get(position).getTitle());
         ((ViewHolder)holder).textViewDesc.setText(imageDTOList.get(position).getDescription());
         ((ViewHolder)holder).imageViewHeart.setImageResource(R.drawable.heart_off);
@@ -78,6 +85,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 .load(url)
                 .placeholder(R.drawable.base_image_frag4)   // 로딩전 잠깐 보여주는 이미지.
                 .into(((ViewHolder) holder).imageView);
+
+
+        isLiked(imageDTO.getPostid(), ((ViewHolder) holder).imageViewHeart);
+
+        ((ViewHolder) holder).imageViewHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( ((ViewHolder) holder).imageViewHeart.getTag().equals("like")) {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
+                            .child(firebaseUser.getUid()).setValue(true);
+                }else {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
+                            .child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
 
     }
 
@@ -104,6 +127,31 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             imageView = itemView.findViewById(R.id.item_image);
             imageViewHeart= itemView.findViewById(R.id.item_heart);
         }
+    }
+
+    private void isLiked(final String postid, final ImageView imageView){
+
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Likes").child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(firebaseUser.getUid()).exists()){
+                    imageView.setImageResource(R.drawable.heart_on);
+                    imageView.setTag("liked");
+                } else{
+                    imageView.setImageResource(R.drawable.heart_off);
+                    imageView.setTag("like");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -200,4 +248,3 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 //
 
 }
-

@@ -141,8 +141,9 @@ public class Frag4 extends Fragment {
                         imageDTO.setImageUrl(downloadUrl.toString());
                         imageDTO.setTitle(etTitle.getText().toString());
                         imageDTO.setDescription(etDesc.getText().toString());
+                        imageDTO.setPostid(database.getReference().child("Profile").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
-                        imageDTO.setUserId(mAuth.getCurrentUser().getEmail());
+                        imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());
 
                         database.getReference().child("Profile").push().setValue(imageDTO);
 
@@ -158,5 +159,6 @@ public class Frag4 extends Fragment {
             Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

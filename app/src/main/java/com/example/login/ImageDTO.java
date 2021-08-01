@@ -4,8 +4,9 @@ public class ImageDTO {
     public String imageUrl;
     public String title;
     public String description;
+    public String postid;
     public String uid;
-    public String userId;
+    public String userEmail;
 
     public String getImageUrl() {
         return imageUrl;
@@ -31,6 +32,14 @@ public class ImageDTO {
         this.description = description;
     }
 
+    public String getPostid() {
+        return postid;
+    }
+
+    public void setPostid(String postid) {
+        this.postid = postid;
+    }
+
     public String getUid() {
         return uid;
     }
@@ -39,11 +48,11 @@ public class ImageDTO {
         this.uid = uid;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }
