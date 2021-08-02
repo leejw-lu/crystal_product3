@@ -28,10 +28,13 @@ public class Frag1 extends Fragment {
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> uidList = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase;
+    //private FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         view = inflater.inflate(R.layout.frag1_home, container, false);
 
@@ -62,6 +65,8 @@ public class Frag1 extends Fragment {
 
             }
         });
+
+
 
         return view;
     }

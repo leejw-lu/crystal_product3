@@ -32,7 +32,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 
 
-public class Frag4 extends Fragment {
+public class Frag4 extends Fragment implements IOnBackPressed {
+
+    @Override
+    public void onBackPressed() {
+        // doIt your code
+        Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
+    }
+
     private static final int GALLERY_CODE = 10;
     private View view;
     private Context context;
@@ -117,6 +124,7 @@ public class Frag4 extends Fragment {
             UploadTask uploadTask = riversRef.putFile(file);
 
 
+
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -160,6 +168,7 @@ public class Frag4 extends Fragment {
             Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 }

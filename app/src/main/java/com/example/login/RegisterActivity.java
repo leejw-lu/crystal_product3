@@ -63,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 account.setEmailId(firebaseUser.getEmail());
                                 account.setPassword(strPwd);
 
-
                                 //setValue : database에 insert(삽입) 행위
                                 nDataBaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 

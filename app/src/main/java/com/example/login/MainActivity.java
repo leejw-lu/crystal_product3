@@ -3,11 +3,13 @@ package com.example.login;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,8 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
+
+    //private long lastTimeBackPressed;   //뒤로가기2번 종료.
 
     private BottomNavigationView bnv; //하단바
     private FragmentManager fm;
@@ -120,4 +126,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        if (fragmentList != null) {
+            Toast.makeText(MainActivity.this, "뒤로가기버튼클릭", Toast.LENGTH_SHORT).show();
+            for(Fragment fragment : fragmentList){
+                if(fragment instanceof IOnBackPressed){
+                    ((IOnBackPressed)fragment).onBackPressed();
+                }
+            }
+        }
+    }
+
+
 }
