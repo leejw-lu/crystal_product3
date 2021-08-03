@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish(); //현재 액티비티 파괴
                             } else{
-                                Toast.makeText(LoginActivity.this,"로그인 실패",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this,"계정 또는 비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
 
                             }
                         }
