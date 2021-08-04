@@ -91,9 +91,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final ImageDTO imageDTO = imageDTOList.get(position);
 
-
+//양성원  ((ViewHolder)holder).textViewDesc.setText(imageDTOList.get(position).getDescription()); 지움  >> 카드 뷰에는 description 필요 없음
         ((ViewHolder)holder).textViewTitle.setText(imageDTOList.get(position).getTitle());
-        ((ViewHolder)holder).textViewDesc.setText(imageDTOList.get(position).getDescription());
+        ((ViewHolder)holder).textViewPrice.setText(imageDTOList.get(position).getPrice());
+        ((ViewHolder)holder).textViewDeadline.setText(imageDTOList.get(position).getDeadline());
+        ((ViewHolder)holder).textViewDescription.setText(imageDTOList.get(position).getDescription());
+        //((ViewHolder)holder).textViewContactLink.setText(imageDTOList.get(position).getContactLink());
+        //((ViewHolder)holder).textViewPurchaseLink.setText(imageDTOList.get(position).getPurchaseLink());
         ((ViewHolder)holder).imageViewHeart.setImageResource(R.drawable.heart_off);
 
         context = holder.itemView.getContext();
@@ -137,7 +141,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     {
         //public TextView textViewUser;
         public TextView textViewTitle;
-        public TextView textViewDesc;
+        public TextView textViewPrice;
+        public TextView textViewDeadline;
+        public TextView textViewDescription;
+        //public TextView textViewContactLink;
+        private TextView textViewPurchaseLink;
         public ImageView imageView;
         public ImageView imageViewHeart;
 
@@ -145,7 +153,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             //textViewUser = itemView.findViewById(R.id.item_user);
             textViewTitle = itemView.findViewById(R.id.item_title); //파라메타 id 찾기
-            textViewDesc = itemView.findViewById(R.id.item_desc);
+            textViewPrice = itemView.findViewById(R.id.item_price);
+            textViewDeadline = itemView.findViewById(R.id.item_deadline);
+            textViewDescription = itemView.findViewById(R.id.item_description);
+            //textViewContactLink = itemView.findViewById(R.id.item_contactlink);
+            //textViewPurchaseLink = itemView.findViewById(R.id.item_purchaselink);
             imageView = itemView.findViewById(R.id.item_image);
             imageViewHeart = itemView.findViewById(R.id.item_heart);
 

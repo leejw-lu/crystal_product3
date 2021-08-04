@@ -47,7 +47,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private Button btnOk;
     private Button btnUpload;
     private ImageView ivProfile;
-    private EditText etTitle, etDesc;
+    private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
 
     private FirebaseAuth mAuth;
@@ -65,10 +65,13 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         context = container.getContext();
         btnUpload = (Button) view.findViewById(R.id.btn_upload);
 
-        btnOk = (Button) view.findViewById(R.id.btn_profile_Ok);          //사진과 글_ 업로드 버튼
-        ivProfile = (ImageView) view.findViewById(R.id.iv_profile);     //사진이미지
+        btnOk = (Button) view.findViewById(R.id.btn_profile_Ok);       //사진과 글_ 업로드 버튼
+        ivProfile = (ImageView) view.findViewById(R.id.iv_profile);          //사진이미지
         etTitle = (EditText) view.findViewById(R.id.title);    //제목
-        etDesc = (EditText) view.findViewById(R.id.description);      //내용
+        etDesc = (EditText) view.findViewById(R.id.description);      //추가 내용
+        etPrice = (EditText) view.findViewById(R.id.price);   //가격
+        etDeadLine =(EditText) view.findViewById(R.id.deadline);      //마감일
+        etPurchaseLink = (EditText) view.findViewById(R.id.purchaseLink);   //구매 링크
 
         //접근 권한
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -157,6 +160,9 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setImageUrl(downloadUrl.toString());
                         imageDTO.setTitle(etTitle.getText().toString());
                         imageDTO.setDescription(etDesc.getText().toString());
+                        imageDTO.setPrice(etPrice.getText().toString());
+                        imageDTO.setDeadline(etDeadLine.getText().toString());
+                        imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
                         imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
                         imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());

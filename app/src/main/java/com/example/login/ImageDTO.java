@@ -7,6 +7,10 @@ public class ImageDTO {
     public String postid;
     public String uid;
     public String userEmail;
+    public String price;
+    public String deadline;
+    public String contactLink;
+    public String purchaseLink;
 
     public String getImageUrl() {
         return imageUrl;
@@ -54,5 +58,37 @@ public class ImageDTO {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getContactLink() {
+        return contactLink;
+    }
+
+    public void setContactLink(String contactLink) {
+        this.contactLink = contactLink;
+    }
+
+    public String getPurchaseLink() {
+        return purchaseLink;
+    }
+
+    public void setPurchaseLink(String purchaseLink) {
+        this.purchaseLink = purchaseLink;
     }
 }

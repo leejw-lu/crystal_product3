@@ -56,15 +56,53 @@
                         android:src="@drawable/heart_off" />
 
                 <TextView
-                    android:id="@+id/item_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:id="@+id/text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_below="@+id/item_title"
+                    android:layout_toRightOf="@+id/item_image"
+                    android:text="가격 : "
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/item_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/item_title"
+                    android:layout_toRightOf="@+id/text_price"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/text_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/item_price"
+                    android:layout_toRightOf="@+id/item_image"
+                    android:text="마감일 : "
+                    android:textColor="@color/black"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/item_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/item_price"
+                    android:layout_toRightOf="@+id/text_deadline"
+                    android:textSize="15dp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/item_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/item_deadline"
                     android:textSize="15dp"
                     android:textColor="@color/black"
                     android:layout_toRightOf="@+id/item_image"
-                    android:padding="5dp" />
-
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
             </RelativeLayout>
 
 
