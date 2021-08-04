@@ -1,5 +1,6 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -54,9 +55,14 @@ public class Frag2 extends Fragment {
 
         //
         //final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList);
-        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList);
+        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(ImageDTO details) {
+                Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(uploadedImageAdapter);
-        //
 
         readTitles();
 

@@ -1,9 +1,11 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,13 +30,10 @@ public class Frag1 extends Fragment {
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> uidList = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase;
-    //private FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        //mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         view = inflater.inflate(R.layout.frag1_home, container, false);
 
@@ -43,7 +42,17 @@ public class Frag1 extends Fragment {
 
         recyclerView.setAdapter(new MyRecyclerViewAdapter());
 
-        final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList);
+        final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(ImageDTO details) {
+                showToast(details.getTitle() + " Clicked");
+
+                Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
+                startActivity(intent);
+            }
+        });
+
+
         recyclerView.setAdapter(uploadedImageAdapter);//데이터 넣기기
 
         //옵저버 패턴 --> 변화가 있으면 클라이언트에 알려준다.
@@ -66,10 +75,13 @@ public class Frag1 extends Fragment {
             }
         });
 
-
-
         return view;
     }
+
+    private void showToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
         /*
         RecyclerView view2 = (RecyclerView)view.findViewById(R.id.main_recyclerview);
         view2.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -1,6 +1,7 @@
 package com.example.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,14 +45,27 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     //private Instant Glide;
 
     //
+
+    private ItemClickListener mItemClickListener;
+
+
     public MyRecyclerViewAdapter(){}    //생성자
-    public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList)
+//    public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList)
+//    {
+//        this.imageDTOList = imageDTOList;
+//        this.uidList = uidList;
+//        this.context=context;   //이건 내가 추가.
+//        storage = FirebaseStorage.getInstance();
+//    }
+    public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList, ItemClickListener itemClickListener)
     {
         this.imageDTOList = imageDTOList;
+        this.mItemClickListener = itemClickListener;
         this.uidList = uidList;
         this.context=context;   //이건 내가 추가.
         storage = FirebaseStorage.getInstance();
     }
+
 
     @NonNull
     @Override
@@ -69,6 +83,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //holder.textViewUser.setText(imageDTOList.get(position).getUserId()); //fragment라 그런지 ViewHolder안하면 오류남.
         //((ViewHolder)holder).textViewUser.setText(imageDTOList.get(position).getUserId());
 
+
+        holder.itemView.setOnClickListener(view-> {
+            mItemClickListener.onItemClick(imageDTOList.get(position));
+        });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final ImageDTO imageDTO = imageDTOList.get(position);
@@ -104,6 +122,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
+
+    public interface ItemClickListener{
+        void onItemClick(ImageDTO details);
+    }
+
     @Override
     public int getItemCount() {
         return imageDTOList.size();
@@ -118,16 +141,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ImageView imageView;
         public ImageView imageViewHeart;
 
-        public ViewHolder(@NonNull View itemView)
-        {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //textViewUser = itemView.findViewById(R.id.item_user);
             textViewTitle = itemView.findViewById(R.id.item_title); //파라메타 id 찾기
             textViewDesc = itemView.findViewById(R.id.item_desc);
             imageView = itemView.findViewById(R.id.item_image);
-            imageViewHeart= itemView.findViewById(R.id.item_heart);
+            imageViewHeart = itemView.findViewById(R.id.item_heart);
+
         }
+
     }
+
 
     private void isLiked(final String postid, final ImageView imageView){
 
