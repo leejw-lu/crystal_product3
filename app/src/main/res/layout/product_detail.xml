@@ -1,15 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:id="@+id/detailImage"
+        android:layout_width="297dp"
+        android:layout_height="296dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/base_image_frag4" />
+
     <TextView
-        android:id="@+id/detailText"
+        android:id="@+id/detailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제목"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp" />
+
+    <TextView
+        android:id="@+id/detailPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가격"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="386dp" />
+
+    <TextView
+        android:id="@+id/detailDeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마감일"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="416dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/detailForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="구글폼주소"
+        android:linksClickable="true"
+        android:autoLink="web"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="449dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/DetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="상세설명"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="480dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="상세페이지 입니다"
-        android:textSize="30dp"
-        android:gravity="center"
-        />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="댓글을 입력하세요."
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="685dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/commentButton"
+        android:layout_width="25dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/ic_baseline_near_me_24"
+        android:backgroundTint="#FFA3A0ED"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

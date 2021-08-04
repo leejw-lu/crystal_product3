@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login</string>
+    <string name="app_name">수정물산</string>
     <string name="todo">TODO</string>
     <string name="name">이름</string>
     <string name="detail">상세</string>

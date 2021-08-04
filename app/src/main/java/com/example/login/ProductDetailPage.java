@@ -13,7 +13,7 @@ public class ProductDetailPage extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail);
-        TextView textView = findViewById(R.id.detailText);
+        TextView textView = findViewById(R.id.detailTitle);
 
         Intent intent = getIntent();
     }
