@@ -45,6 +45,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private Context context;
 
     private Button btnOk;
+    private Button btnUpload;
     private ImageView ivProfile;
     private EditText etTitle, etDesc;
     private String imageUrl="";
@@ -52,7 +53,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
         context = container.getContext();
+        btnUpload = (Button) view.findViewById(R.id.btn_upload);
 
         btnOk = (Button) view.findViewById(R.id.btn_profile_Ok);          //사진과 글_ 업로드 버튼
         ivProfile = (ImageView) view.findViewById(R.id.iv_profile);     //사진이미지
@@ -82,10 +83,16 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             }
         });
 
-        //앨범 불러오는 코드
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent,GALLERY_CODE);
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //앨범 불러오는 코드
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent,GALLERY_CODE);
+            }
+        });
+
 
         return view;
     }
