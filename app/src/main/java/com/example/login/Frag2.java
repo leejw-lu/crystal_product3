@@ -40,21 +40,14 @@ public class Frag2 extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag2_search, container, false);
 
-        //recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        //recyclerView.setHasFixedSize(true);
         recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         search_bar = view.findViewById(R.id.search_bar);
 
-//        myRecyclerViewAdapter = new MyRecyclerViewAdapter();
-//        recyclerView.setAdapter(myRecyclerViewAdapter);
         recyclerView.setAdapter(new MyRecyclerViewAdapter());
 
-        //
-        //final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList);
         uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(ImageDTO details) {
@@ -87,7 +80,7 @@ public class Frag2 extends Fragment {
     }
 
     private void searchTitles(String s){
-        Query query = FirebaseDatabase.getInstance().getReference("Profile").orderByChild("title")
+        Query query = FirebaseDatabase.getInstance().getReference("Post").orderByChild("title")
                 .startAt(s)
                 .endAt(s+"\uf8ff");
 
@@ -113,7 +106,7 @@ public class Frag2 extends Fragment {
     private void readTitles() {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Profile");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

@@ -56,7 +56,7 @@ public class Frag1 extends Fragment {
         recyclerView.setAdapter(uploadedImageAdapter);//데이터 넣기기
 
         //옵저버 패턴 --> 변화가 있으면 클라이언트에 알려준다.
-        firebaseDatabase.getReference().child("Profile").addValueEventListener(new ValueEventListener() {
+        firebaseDatabase.getReference().child("Post").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {  //변화된 값이 DataSnapshot 으로 넘어온다.
                 //데이터가 쌓이기 때문에  clear()

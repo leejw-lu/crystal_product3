@@ -157,11 +157,11 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setImageUrl(downloadUrl.toString());
                         imageDTO.setTitle(etTitle.getText().toString());
                         imageDTO.setDescription(etDesc.getText().toString());
-                        imageDTO.setPostid(database.getReference().child("Profile").push().getKey());
+                        imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
                         imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());
 
-                        database.getReference().child("Profile").push().setValue(imageDTO);
+                        database.getReference().child("Post").push().setValue(imageDTO);
 
                     } else {
                         // Handle failures
