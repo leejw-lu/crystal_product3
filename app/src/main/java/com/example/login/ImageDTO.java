@@ -1,6 +1,6 @@
 package com.example.login;
 
-public class ImageDTO {
+public class  ImageDTO {
     public String imageUrl;
     public String title;
     public String description;

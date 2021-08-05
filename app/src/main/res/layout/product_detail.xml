@@ -1,107 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/detailImage"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/base_image_frag4"
-        />
-
-
-    <TextView
-        android:id="@+id/detailTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="제목"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_below="@+id/detailImage"
-        />
-
-
-    <TextView
-        android:id="@+id/detailPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="가격"
-        android:textSize="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/detailTitle"
-        />
-
-    <TextView
-        android:id="@+id/detailDeadline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="마감일"
-        android:textSize="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/detailPrice"
-        />
-
-    <TextView
-        android:id="@+id/detailForm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:text="구글폼주소"
-        android:textSize="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/detailDeadline"
-         />
-
-    <TextView
-        android:id="@+id/detailDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상세설명"
-        android:textSize="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/detailForm"
-        />
-
-    <EditText
-        android:id="@+id/editComment"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="50dp"
-        android:ems="10"
-        android:hint="댓글을 입력하세요."
-        android:inputType="textPersonName" />
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/commentButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/ic_baseline_near_me_24"
-        android:backgroundTint="#FFA3A0ED" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@drawable/base_image_frag4" />
+
+            <TextView
+                android:id="@+id/detailTitle"
+                android:layout_width="383dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailImage"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="22dp"
+                android:text="제목"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detailPrice"
+                android:layout_width="383dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailTitle"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="17dp"
+                android:text="가격"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/detailDeadline"
+                android:layout_width="383dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailPrice"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="마감일"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/detailForm"
+                android:layout_width="383dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailDeadline"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:text="구글폼주소"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/detailDescription"
+                android:layout_width="383dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detailForm"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:scrollbars="vertical"
+                android:text="상세설명"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    //하단 댓글입력창 고정
+
+    <LinearLayout
+        android:id="@+id/bottom_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editComment"
+            android:layout_width="244dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="5"
+            android:hint="댓글을 입력하세요."
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/commentButton"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_baseline_near_me_24"
+            android:backgroundTint="#FFA3A0ED" />
+
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

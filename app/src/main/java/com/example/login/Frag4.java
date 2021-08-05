@@ -134,7 +134,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             UploadTask uploadTask = riversRef.putFile(file);
 
 
-
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

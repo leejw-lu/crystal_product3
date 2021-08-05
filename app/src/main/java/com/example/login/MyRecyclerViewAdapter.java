@@ -1,7 +1,6 @@
 package com.example.login;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,29 +33,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
-    private final ArrayList<CardViewItemDTO> cardViewItemDTOS = new ArrayList<>();
-    private Object CustomViewHolder;
-
     //지우--변수추가
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> uidList = new ArrayList<>();
     private FirebaseStorage storage;
     private Context context;
-    //private Instant Glide;
-
-    //
 
     private ItemClickListener mItemClickListener;
 
-
     public MyRecyclerViewAdapter(){}    //생성자
-//    public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList)
-//    {
-//        this.imageDTOList = imageDTOList;
-//        this.uidList = uidList;
-//        this.context=context;   //이건 내가 추가.
-//        storage = FirebaseStorage.getInstance();
-//    }
     public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList, ItemClickListener itemClickListener)
     {
         this.imageDTOList = imageDTOList;
@@ -65,7 +50,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.context=context;   //이건 내가 추가.
         storage = FirebaseStorage.getInstance();
     }
-
 
     @NonNull
     @Override

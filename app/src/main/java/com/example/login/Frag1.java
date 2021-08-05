@@ -45,9 +45,17 @@ public class Frag1 extends Fragment {
         final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(ImageDTO details) {
-                showToast(details.getTitle() + " Clicked");
+                //showToast(details.getTitle() + " Clicked");
 
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
+                //intent했을때, productdetailpage.java 액티비티로 해당 post의 값 보내기
+                intent.putExtra("image",details.getImageUrl());
+                intent.putExtra("title",details.getTitle()); //jw추가
+                intent.putExtra("price",details.getPrice());
+                intent.putExtra("deadline",details.getDeadline());
+                intent.putExtra("form",details.getPurchaseLink());
+                intent.putExtra("description",details.getDescription());
+
                 startActivity(intent);
             }
         });
