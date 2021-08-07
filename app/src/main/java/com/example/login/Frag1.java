@@ -89,10 +89,10 @@ public class Frag1 extends Fragment {
 
         return view;
     }
-
-    private void showToast(String message){
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
+//
+//    private void showToast(String message){
+//        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+//    }
 
 }
 

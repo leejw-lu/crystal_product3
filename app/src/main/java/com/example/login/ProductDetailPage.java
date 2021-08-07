@@ -115,12 +115,12 @@ public class ProductDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if ( heart.getTag().equals("like")) {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
-                            .child(firebaseUser.getUid()).setValue(true);
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(firebaseUser.getUid())
+                            .child(postid).setValue(true);
                     Toast.makeText(ProductDetailPage.this, "관심상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
-                            .child(firebaseUser.getUid()).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(firebaseUser.getUid())
+                            .child(postid).removeValue();
                     Toast.makeText(ProductDetailPage.this, "관심상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -130,7 +130,7 @@ public class ProductDetailPage extends AppCompatActivity {
     }
 
     //댓글 firebase에 등록 함수
-   private void addcomment() {
+    private void addcomment() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -169,11 +169,11 @@ public class ProductDetailPage extends AppCompatActivity {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Likes").child(postid);
+                .child("Likes").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(firebaseUser.getUid()).exists()) {
+                if (dataSnapshot.child(postid).exists()) {
                     imageView.setImageResource(R.drawable.heart_on);
                     imageView.setTag("liked");
                 } else {

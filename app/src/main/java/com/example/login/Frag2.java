@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,8 @@ public class Frag2 extends Fragment {
     private void searchTitles(String s){
         Query query = FirebaseDatabase.getInstance().getReference("Post").orderByChild("title")
                 .startAt(s)
-                .endAt(s+"\uf8ff");
+                .endAt(s+"uf8ff");
+
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -111,6 +113,9 @@ public class Frag2 extends Fragment {
             }
         });
     }
+
+
+
 
     private void readTitles() {
 

@@ -81,7 +81,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         String url = imageDTOList.get(position).getImageUrl();
 
         Glide.with(context).load(url).placeholder(R.drawable.base_image_frag4)   // 로딩전 잠깐 보여주는 이미지.
-             .into(((ViewHolder) holder).imageView);
+                .into(((ViewHolder) holder).imageView);
 
 
         isLiked(imageDTO.getPostid(), ((ViewHolder) holder).imageViewHeart);
@@ -90,12 +90,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View view) {
                 if ( ((ViewHolder) holder).imageViewHeart.getTag().equals("like")) {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
-                            .child(firebaseUser.getUid()).setValue(true);
+                    FirebaseDatabase.getInstance().getReference().child("Likes")
+                            .child(firebaseUser.getUid())
+                            .child(imageDTO.getPostid())
+                            .setValue(true);
                     Toast.makeText(context.getApplicationContext(), "관심상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
-                    FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
-                            .child(firebaseUser.getUid()).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Likes")
+                            .child(firebaseUser.getUid())
+                            .child(imageDTO.getPostid())
+                            .removeValue();
                     Toast.makeText(context.getApplicationContext(), "관심상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -148,11 +152,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child("Likes").child(postid);
+                .child("Likes").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(firebaseUser.getUid()).exists()){
+                if (dataSnapshot.child(postid).exists()){
                     imageView.setImageResource(R.drawable.heart_on);
                     imageView.setTag("liked");
                 } else{

@@ -103,12 +103,11 @@
 
         <ImageView
             android:id="@+id/detail_heart"
-            android:layout_width="38dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_weight="0.5"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
             android:src="@drawable/heart_off"/>
 
         <EditText
@@ -118,19 +117,17 @@
             android:layout_marginBottom="7dp"
             android:layout_weight="3"
             android:hint="댓글을 입력하세요."
+            android:backgroundTint="#9391C1"
             android:inputType="textMultiLine"/>
 
         <TextView
             android:id="@+id/comment_post"
-            android:layout_width="38dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="POST"
-            android:textColor="#7846D1"
-            android:textSize="18dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/mainPurple"
+            android:textSize="13dp"
             android:textStyle="bold" />
 
     </LinearLayout>
