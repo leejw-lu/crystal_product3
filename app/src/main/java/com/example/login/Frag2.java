@@ -78,7 +78,7 @@ public class Frag2 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchTitles(charSequence.toString().toLowerCase());
+                searchTitles(charSequence.toString());
             }
 
             @Override
@@ -93,7 +93,7 @@ public class Frag2 extends Fragment {
     private void searchTitles(String s){
         Query query = FirebaseDatabase.getInstance().getReference("Post").orderByChild("title")
                 .startAt(s)
-                .endAt(s+"uf8ff");
+                .endAt(s+"\uf8ff");
 
 
         query.addValueEventListener(new ValueEventListener() {
@@ -129,11 +129,8 @@ public class Frag2 extends Fragment {
                     imageDTOList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
-
                         imageDTOList.add(imageDTO);
-
                     }
-
                     uploadedImageAdapter.notifyDataSetChanged();
                 }
             }

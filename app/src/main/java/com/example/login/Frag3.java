@@ -19,5 +19,5 @@ public class Frag3 extends Fragment {
         view = inflater.inflate(R.layout.frag3_calendar, container,false);
 
         return view;
-           }
+    }
 }

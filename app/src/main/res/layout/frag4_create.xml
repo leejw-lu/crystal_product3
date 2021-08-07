@@ -52,6 +52,32 @@
             android:hint="Title" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <!--마감기한   달력 콤보 상자로 -->
+
+    <TextView
+        android:id="@+id/deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
+
+    <!--달력 모양 input
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_date"
+        android:hint="Select Date"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        tools:ignore="MissingConstraints" />
+-->
+
+
     <!--가격-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInput_price"
@@ -62,7 +88,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile">
+        app:layout_constraintTop_toBottomOf="@+id/deadline">
 
         <EditText
             android:id="@+id/price"
@@ -70,27 +96,6 @@
             android:layout_height="match_parent"
             android:gravity="top"
             android:hint="Price"
-            android:inputType="textMultiLine" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--마감기한   달력 콤보 상자로 -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_deadline"
-        android:layout_width="368dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInput_price">
-
-        <EditText
-            android:id="@+id/deadline"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:hint="Deadline"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +109,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInput_deadline">
+        app:layout_constraintTop_toBottomOf="@+id/textInput_price">
 
         <EditText
             android:id="@+id/purchaseLink"

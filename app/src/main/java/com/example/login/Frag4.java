@@ -1,9 +1,12 @@
 package com.example.login;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.util.Calendar;
 
 
 public class Frag4 extends Fragment implements IOnBackPressed {
@@ -54,6 +60,12 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private FirebaseStorage storage;
     private FirebaseDatabase database;
 
+    //date input
+    TextView dateTv;
+    DatePickerDialog.OnDateSetListener setListener;
+    private String date;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -70,7 +82,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         etTitle = (EditText) view.findViewById(R.id.title);    //제목
         etDesc = (EditText) view.findViewById(R.id.description);      //추가 내용
         etPrice = (EditText) view.findViewById(R.id.price);   //가격
-        etDeadLine =(EditText) view.findViewById(R.id.deadline);      //마감일
+        //etDeadLine =(EditText) view.findViewById(R.id.deadline);      //마감일
         etPurchaseLink = (EditText) view.findViewById(R.id.purchaseLink);   //구매 링크
 
         //접근 권한
@@ -97,7 +109,36 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         });
 
 
-        return view;
+
+        //date input
+        dateTv = (TextView) view.findViewById(R.id.deadline);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        dateTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        getActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth
+                        ,setListener,year,month,day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+
+            }
+        });
+
+        setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month+1;
+                date = year + "/" + month + "/" + dayOfMonth ;
+                dateTv.setText(date);
+            }
+        };
+
+       return view;
     }
 
     @Override
@@ -160,7 +201,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setTitle(etTitle.getText().toString());
                         imageDTO.setDescription(etDesc.getText().toString());
                         imageDTO.setPrice(etPrice.getText().toString());
-                        imageDTO.setDeadline(etDeadLine.getText().toString());
+                        imageDTO.setDeadline(date);
                         imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
                         imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
