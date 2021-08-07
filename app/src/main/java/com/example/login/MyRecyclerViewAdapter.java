@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,13 +28,8 @@ import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //카드뷰변수
-    private List<String> uidLists = new ArrayList<>();
-    private FirebaseDatabase database;
-    private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
-    //지우--변수추가
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> uidList = new ArrayList<>();
     private FirebaseStorage storage;
@@ -47,7 +43,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.imageDTOList = imageDTOList;
         this.mItemClickListener = itemClickListener;
         this.uidList = uidList;
-        this.context=context;   //이건 내가 추가.
+        this.context=context;   //이건 내가 추가. -> 없어도 되나...???
         storage = FirebaseStorage.getInstance();
     }
 
@@ -67,7 +63,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //holder.textViewUser.setText(imageDTOList.get(position).getUserId()); //fragment라 그런지 ViewHolder안하면 오류남.
         //((ViewHolder)holder).textViewUser.setText(imageDTOList.get(position).getUserId());
 
-
         holder.itemView.setOnClickListener(view-> {
             mItemClickListener.onItemClick(imageDTOList.get(position));
         });
@@ -80,17 +75,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((ViewHolder)holder).textViewPrice.setText(imageDTOList.get(position).getPrice());
         ((ViewHolder)holder).textViewDeadline.setText(imageDTOList.get(position).getDeadline());
         ((ViewHolder)holder).textViewDescription.setText(imageDTOList.get(position).getDescription());
-        //((ViewHolder)holder).textViewContactLink.setText(imageDTOList.get(position).getContactLink());
-        //((ViewHolder)holder).textViewPurchaseLink.setText(imageDTOList.get(position).getPurchaseLink());
         ((ViewHolder)holder).imageViewHeart.setImageResource(R.drawable.heart_off);
 
         context = holder.itemView.getContext();
         String url = imageDTOList.get(position).getImageUrl();
 
-        Glide.with(context)
-                .load(url)
-                .placeholder(R.drawable.base_image_frag4)   // 로딩전 잠깐 보여주는 이미지.
-                .into(((ViewHolder) holder).imageView);
+        Glide.with(context).load(url).placeholder(R.drawable.base_image_frag4)   // 로딩전 잠깐 보여주는 이미지.
+             .into(((ViewHolder) holder).imageView);
 
 
         isLiked(imageDTO.getPostid(), ((ViewHolder) holder).imageViewHeart);
@@ -101,9 +92,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 if ( ((ViewHolder) holder).imageViewHeart.getTag().equals("like")) {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
                             .child(firebaseUser.getUid()).setValue(true);
+                    Toast.makeText(context.getApplicationContext(), "관심상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(imageDTO.getPostid())
                             .child(firebaseUser.getUid()).removeValue();
+                    Toast.makeText(context.getApplicationContext(), "관심상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,7 +143,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    private void isLiked(final String postid, final ImageView imageView){
+    private void isLiked(final String postid, final ImageView imageView){    //isLiked함수 ProductDetailPage에서 쓸수있게 public으로 바꿈.
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 

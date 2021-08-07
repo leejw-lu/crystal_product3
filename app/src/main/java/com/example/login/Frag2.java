@@ -2,7 +2,6 @@ package com.example.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +50,18 @@ public class Frag2 extends Fragment {
             @Override
             public void onItemClick(ImageDTO details) {
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
+                //intent했을때, productdetailpage.java 액티비티로 해당 post의 값 보내기
+                intent.putExtra("image",details.getImageUrl());
+                intent.putExtra("title",details.getTitle()); //jw추가
+                intent.putExtra("price",details.getPrice());
+                intent.putExtra("deadline",details.getDeadline());
+                intent.putExtra("form",details.getPurchaseLink());
+                intent.putExtra("description",details.getDescription());
+
+                //댓글기능할떄 추가함 + 하트
+                intent.putExtra("postid",details.getPostid());
+                intent.putExtra("publisherid",details.getUserEmail());
+
                 startActivity(intent);
             }
         });
@@ -92,7 +102,6 @@ public class Frag2 extends Fragment {
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                     imageDTOList.add(imageDTO);
                 }
-
                 uploadedImageAdapter.notifyDataSetChanged();
             }
 

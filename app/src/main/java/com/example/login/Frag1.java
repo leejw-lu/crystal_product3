@@ -56,6 +56,10 @@ public class Frag1 extends Fragment {
                 intent.putExtra("form",details.getPurchaseLink());
                 intent.putExtra("description",details.getDescription());
 
+                //댓글기능할떄 추가함
+                intent.putExtra("postid",details.getPostid());
+                intent.putExtra("publisherid",details.getUid());
+
                 startActivity(intent);
             }
         });
@@ -90,15 +94,6 @@ public class Frag1 extends Fragment {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-        /*
-        RecyclerView view2 = (RecyclerView)view.findViewById(R.id.main_recyclerview);
-        view2.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        view2.setAdapter(new MyRecyclerViewAdapter());
-
-        return view;
-
-         */
 }
 
 

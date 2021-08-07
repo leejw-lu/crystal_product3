@@ -79,7 +79,17 @@
                 android:scrollbars="vertical"
                 android:text="상세설명"
                 android:textSize="15dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detailDescription"
+                android:layout_marginTop="20dp"
+                android:id="@+id/comment_recyclerview"/>
+
         </LinearLayout>
+
     </ScrollView>
 
     //하단 댓글입력창 고정
@@ -90,26 +100,38 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editComment"
-            android:layout_width="244dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="5"
-            android:hint="댓글을 입력하세요."
-            android:inputType="textPersonName" />
 
-        <Button
-            android:id="@+id/commentButton"
+        <ImageView
+            android:id="@+id/detail_heart"
             android:layout_width="38dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_weight="0.5"
+            android:src="@drawable/heart_off"/>
+
+        <EditText
+            android:id="@+id/add_comment"
+            android:layout_width="253dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="3"
+            android:hint="댓글을 입력하세요."
+            android:inputType="textMultiLine"/>
+
+        <TextView
+            android:id="@+id/comment_post"
+            android:layout_width="38dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_baseline_near_me_24"
-            android:backgroundTint="#FFA3A0ED" />
+            android:text="POST"
+            android:textColor="#7846D1"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
