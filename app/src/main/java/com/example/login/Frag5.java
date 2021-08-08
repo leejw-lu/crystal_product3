@@ -46,7 +46,7 @@ public class Frag5 extends Fragment {
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter uploadedImageAdapter;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
-    private List<String> uidList = new ArrayList<>();
+    private List<String> postList = new ArrayList<>();
     private FirebaseUser firebaseUser;
     private ImageDTO imageDTO;
 
@@ -69,31 +69,6 @@ public class Frag5 extends Fragment {
         DatabaseReference email = mDatabase.child("UserAccount").child(uid).child("emailId");
         DatabaseReference nickname = mDatabase.child("UserAccount").child(uid).child("nickname");
 
-        //DatabaseReference 원하는 변수 = mDatabase.child(uid).child("nickname");
-        // uid = 파이어베이스 유저 고유 uid , nickname = 데이터 베이스 child 명
-
-
-        //양성원 추가
-        /* kod dev 코드  >> fragment에서는 적용 안됨.
-        //데이터 받는 코드
-        Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        */
-
-        //대체 1
-        /*
-        //데이터 주는 코드?
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        id = intent.getStringExtra("id");
-        */
-
-        //대체2
-        //데이터 받는 코드
-        Bundle extra = getArguments();
-        if(extra!=null){
-            uid = extra.getString("uid");
-        }
-
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = (RecyclerView) view.findViewById(R.id.heart_recyclerview);
@@ -102,7 +77,7 @@ public class Frag5 extends Fragment {
 
         recyclerView.setAdapter(new MyRecyclerViewAdapter());
 
-        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
+        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, postList, new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(ImageDTO details) {
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
@@ -173,16 +148,13 @@ public class Frag5 extends Fragment {
 
 
     private void getHeart() {
-        //바로 아랫줄이 오류 코드임
-        // Kod dev 코드 >>
-        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(id);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                uidList.clear();
+                postList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    uidList.add(snapshot.getKey());
+                    postList.add(snapshot.getKey());
                 }
                 showHeartProduct();
             }
@@ -202,8 +174,8 @@ public class Frag5 extends Fragment {
                 imageDTOList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
-                    for (String id : uidList){
-                        if (imageDTO.getPostid().equals(id)){
+                    for (String postid : postList){
+                        if (imageDTO.getPostid().equals(postid)){
                             imageDTOList.add(imageDTO);
                         }
                     }

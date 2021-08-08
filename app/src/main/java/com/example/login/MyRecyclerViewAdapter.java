@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -94,6 +95,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             .child(firebaseUser.getUid())
                             .child(imageDTO.getPostid())
                             .setValue(true);
+
                     Toast.makeText(context.getApplicationContext(), "관심상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
                     FirebaseDatabase.getInstance().getReference().child("Likes")
