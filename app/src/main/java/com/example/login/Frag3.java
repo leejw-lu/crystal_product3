@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +38,7 @@ public class Frag3 extends Fragment {
     private List<String> deadlineList = new ArrayList<>();
     private FirebaseUser firebaseUser;
     private String postid;
+    String clickdate;
 
     //달력
     Calendar cal = Calendar.getInstance(); //오늘날짜 입력하기.
@@ -74,41 +74,20 @@ public class Frag3 extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                text_date.setText(String.format("%d / %d / %d",year,month+1,dayOfMonth));
+
+                clickdate=String.format("%d/%d/%d",year,month+1,dayOfMonth);
+                text_date.setText(clickdate);
+                System.out.println(clickdate);
+
                 getHeart();
+
             }
         });
-        getHeart();
+       //getHeart();
 
         return view;
     }
 
-
-
-    private void getDeadline(String postid) {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post").child(postid).child("deadline");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                deadlineList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    deadlineList.add(snapshot.getKey());
-/*
-                    System.out.println("############################################################");
-                    System.out.println(deadlineList);
-                    System.out.println("############################################################");
-*/
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     private void showDeadlineProduct(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");
@@ -116,14 +95,25 @@ public class Frag3 extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 imageDTOList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                //deadlineList.clear();
+                String deadline2;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){       //이거 하면 post의 토크값
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
-                    for (String deadline : deadlineList) {
-                        if (imageDTO.getDeadline().equals(deadline)) {
-                            imageDTOList.add(imageDTO);
+                    for (String postid : postList) {
+                        if (imageDTO.getPostid().equals(postid)) {
+                            //그냥 deadline 스트링 하나만
+                            deadline2=imageDTO.getDeadline();   //날짜 받아오기
+
+                            if (clickdate.equals(deadline2)){
+                                    //System.out.println("클릭한날짜");
+                                    //System.out.println(clickdate);
+                                    imageDTOList.add(imageDTO);
+                            }
                         }
                     }
                 }
+                //System.out.println("관심상품한 날짜만 가져오기");
+                //System.out.println(deadlineList);
                 calendarAdapter.notifyDataSetChanged();
             }
 
@@ -136,16 +126,13 @@ public class Frag3 extends Fragment {
     }
 
     private void getHeart() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");   //post 토큰값 가져오기
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 postList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    postList.add(snapshot.getKey());            //postList에 post 개수만큼 토큰값이 제대로 담겨있음
-                }
-                for (String postid : postList) {
-                    getDeadline(postid);
+                    postList.add(snapshot.getKey());
                 }
                 showDeadlineProduct();
             }
@@ -156,5 +143,6 @@ public class Frag3 extends Fragment {
             }
         });
     }
+
 }
 

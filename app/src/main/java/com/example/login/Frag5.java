@@ -2,7 +2,6 @@ package com.example.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +68,9 @@ public class Frag5 extends Fragment {
         DatabaseReference email = mDatabase.child("UserAccount").child(uid).child("emailId");
         DatabaseReference nickname = mDatabase.child("UserAccount").child(uid).child("nickname");
 
+        //DatabaseReference 원하는 변수 = mDatabase.child(uid).child("nickname");
+        // uid = 파이어베이스 유저 고유 uid , nickname = 데이터 베이스 child 명
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = (RecyclerView) view.findViewById(R.id.heart_recyclerview);
@@ -97,7 +99,6 @@ public class Frag5 extends Fragment {
             }
         });
         recyclerView.setAdapter(uploadedImageAdapter);
-
 
         //닉네임 띄워주기
         nickname_info=view.findViewById(R.id.nickname_info);
@@ -148,6 +149,9 @@ public class Frag5 extends Fragment {
 
 
     private void getHeart() {
+        //바로 아랫줄이 오류 코드임
+        // Kod dev 코드 >>
+        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(id);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

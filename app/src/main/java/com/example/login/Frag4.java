@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -56,13 +57,10 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
 
-
-    private Object postid;
-
-
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
+    DatabaseReference mDatabase;
 
     //date input
     TextView dateTv;
@@ -143,7 +141,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         };
 
 
-        postid = database.getReference().child("Post").push().getKey();
+        //date.setText(null);
 
 
        return view;
@@ -211,10 +209,9 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setPrice(etPrice.getText().toString());
                         imageDTO.setDeadline(date);
                         imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
-
-                        //imageDTO.setPostid(database.getReference().child("Post").child().setValue(postid));
-
+                        imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
+                        //imageDTO.setNickname(nickname);
                         imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());
 
                         database.getReference().child("Post").push().setValue(imageDTO);
@@ -224,7 +221,10 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         etDesc.setText("");
                         etPrice.setText("");
                         etPurchaseLink.setText("");
-                        date = "";
+                        date="";
+                        //dateTv.setText(date);
+                        //ivProfile.setImageResource(0);
+
                     } else {
                         // Handle failures
                         Toast.makeText(context,"업로드 되지 않았습니다.",Toast.LENGTH_SHORT).show();

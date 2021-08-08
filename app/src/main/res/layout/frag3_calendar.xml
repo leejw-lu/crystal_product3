@@ -10,12 +10,13 @@
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
     <TextView
         android:id="@+id/text_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:text="아무말"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_calendar"
         android:layout_width="match_parent"
