@@ -57,6 +57,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
 
+
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
@@ -211,7 +212,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
                         imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
-                        //imageDTO.setNickname(nickname);
                         imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());
 
                         database.getReference().child("Post").push().setValue(imageDTO);
@@ -221,10 +221,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         etDesc.setText("");
                         etPrice.setText("");
                         etPurchaseLink.setText("");
-                        date="";
-                        //dateTv.setText(date);
-                        //ivProfile.setImageResource(0);
-
+                        date = "";
                     } else {
                         // Handle failures
                         Toast.makeText(context,"업로드 되지 않았습니다.",Toast.LENGTH_SHORT).show();

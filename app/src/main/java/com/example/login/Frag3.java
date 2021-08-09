@@ -37,7 +37,6 @@ public class Frag3 extends Fragment {
     private List<String> postList = new ArrayList<>();
     private List<String> deadlineList = new ArrayList<>();
     private FirebaseUser firebaseUser;
-    private String postid;
     String clickdate;
 
     //달력
@@ -80,10 +79,8 @@ public class Frag3 extends Fragment {
                 System.out.println(clickdate);
 
                 getHeart();
-
             }
         });
-       //getHeart();
 
         return view;
     }
@@ -105,9 +102,9 @@ public class Frag3 extends Fragment {
                             deadline2=imageDTO.getDeadline();   //날짜 받아오기
 
                             if (clickdate.equals(deadline2)){
-                                    //System.out.println("클릭한날짜");
-                                    //System.out.println(clickdate);
-                                    imageDTOList.add(imageDTO);
+                                //System.out.println("클릭한날짜");
+                                //System.out.println(clickdate);
+                                imageDTOList.add(imageDTO);
                             }
                         }
                     }
@@ -145,4 +142,3 @@ public class Frag3 extends Fragment {
     }
 
 }
-

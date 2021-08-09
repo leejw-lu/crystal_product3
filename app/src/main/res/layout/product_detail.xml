@@ -79,7 +79,33 @@
                 android:scrollbars="vertical"
                 android:text="상세설명"
                 android:textSize="15dp" />
+            <TextView
+                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_recyclerview"
+                android:layout_marginTop="20dp"
+                android:id="@+id/notice_buy"
+                android:textSize="15dp"
+                android:text="수요조사에 찬성하는 경우에만 아래 버튼을 클릭해주세요."/>
 
+            <CheckBox
+                android:id="@+id/btn_buy"
+                android:layout_marginLeft="15dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="구매 의향 있음."
+                android:textColor="#8C8C8C"
+                android:buttonTint="#D1B2FF"/>
+
+            <TextView
+                android:id="@+id/buy_count"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/btn_buy"
+                android:paddingLeft="15dp"
+                android:textSize="15dp"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:paddingLeft="15dp"
                 android:layout_width="match_parent"
@@ -87,6 +113,7 @@
                 android:layout_below="@id/detailDescription"
                 android:layout_marginTop="20dp"
                 android:id="@+id/comment_recyclerview"/>
+
 
         </LinearLayout>
 

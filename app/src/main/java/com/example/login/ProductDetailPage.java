@@ -3,6 +3,7 @@ package com.example.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,10 @@ public class ProductDetailPage extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
 
+    //수요조사
+    CheckBox demands_btn;
+    TextView demands_t;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -63,6 +68,7 @@ public class ProductDetailPage extends AppCompatActivity {
         textView_deadline=findViewById(R.id.detailDeadline);
         textView_form=findViewById(R.id.detailForm);
         textView_description=findViewById(R.id.detailDescription);
+
 
         String image_url=intent.getStringExtra("image");
         String title = intent.getStringExtra("title");
@@ -107,8 +113,14 @@ public class ProductDetailPage extends AppCompatActivity {
 
         //하트버튼 추가했다.
         heart=findViewById(R.id.detail_heart);
-
         isLiked(postid,heart); //하트함수
+
+        //수요조사
+        demands_btn = findViewById(R.id.btn_buy);
+        demands_t = findViewById(R.id.buy_count);
+
+        isDemands(postid,demands_btn);
+        nrDemands(demands_t, postid);
 
         heart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +137,30 @@ public class ProductDetailPage extends AppCompatActivity {
             }
         });
 
+        //수요조사
+        demands_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (demands_btn.getTag().equals("not_demand")) {
+                    FirebaseDatabase.getInstance().getReference().child("Demands").child(postid).child(firebaseUser.getUid()).setValue(true);
+                    Toast.makeText(ProductDetailPage.this, "수요조사 찬성", Toast.LENGTH_SHORT).show();
+                }else {
+                    FirebaseDatabase.getInstance().getReference().child("Demands").child(postid).child(firebaseUser.getUid()).removeValue();
+                    Toast.makeText(ProductDetailPage.this, "수요조사 찬성 취소", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
+        //수요조사 찬성한 사람 볼 수 있는 함수. Demander 클래스 구현 안 함.
+       /*
+        demands_t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductDetailPage.this, Demander.class);
+                intent.putExtra("id", postid);
+                ProductDetailPage.this.startActivity(intent);
+            }
+        });*/
     }
 
     //댓글 firebase에 등록 함수
@@ -142,6 +177,7 @@ public class ProductDetailPage extends AppCompatActivity {
         reference.child(commentid).setValue(hashMap);
         addcomment.setText("");
     }
+
 
     //댓글 불러와서 읽기 함수
     private void readComments(){
@@ -191,5 +227,48 @@ public class ProductDetailPage extends AppCompatActivity {
         });
     }
 
+    //수요조사 클릭
+    private void isDemands(final String postid, final CheckBox checkBox){
 
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Demands").child(postid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(firebaseUser.getUid()).exists()){
+                    checkBox.setChecked(true);
+                    checkBox.setTag("demand");
+                } else{
+                    checkBox.setChecked(false);
+                    checkBox.setTag("not_demand");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    //수요조사 수
+    private void nrDemands(final TextView demands_p, String postId){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("Demands").child(postId);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                demands_p.setText(dataSnapshot.getChildrenCount()+" people");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }
