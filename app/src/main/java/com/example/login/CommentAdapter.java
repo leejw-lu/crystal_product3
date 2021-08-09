@@ -1,14 +1,19 @@
 package com.example.login;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,14 +30,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private Context mContext;
     private List<CommentsDTO> mComments;
+    private String postid;
 
     FirebaseUser firebaseUser;
     DatabaseReference mDatabase;
 
     //생성자
-    public CommentAdapter(Context mContext, List<CommentsDTO> mComments) {
+    public CommentAdapter(Context mContext, List<CommentsDTO> mComments,String postid) {
         this.mContext = mContext;
         this.mComments = mComments;
+        this.postid=postid;
     }
 
     @NonNull
@@ -59,6 +66,44 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         //리사이클러뷰에서 댓글보이기setText하기. -> 댓글쓴 사람의 닉네임이랑 댓글내용이 보여진다.
         holder.comment.setText(comment.getComment());
         getUserInfo(holder.username,comment.getPublisher());
+
+        //댓글 삭제하기 -> 사용자가 해당댓글 longclick하면 알림창뜨게.
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (comment.getPublisher().equals(firebaseUser.getUid())){         // 댓글쓴 사람이 본인인지 확인.
+                    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                    alertDialog.setTitle("댓글을 삭제하시겠습니까?");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FirebaseDatabase.getInstance().getReference("Comments")
+                                            .child(postid).child(comment.getCommentid())
+                                            .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                Toast.makeText(mContext, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+                return true;
+            }
+        });
+
 
     }
 
