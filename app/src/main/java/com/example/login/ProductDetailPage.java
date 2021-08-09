@@ -1,5 +1,7 @@
 package com.example.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +39,8 @@ import java.util.List;
 public class ProductDetailPage extends AppCompatActivity {
 
     //세부항목(글) 불러오기
-    ImageView imageView_image;
-    TextView textView_title,textView_price,textView_deadline,textView_form,textView_description;
+    ImageView imageView_image, delete_post;
+    TextView textView_title, textView_price, textView_deadline, textView_form, textView_description;
 
     //댓글
     RecyclerView recyclerView;
@@ -43,10 +51,11 @@ public class ProductDetailPage extends AppCompatActivity {
     ImageView heart;
     TextView post;
 
-    String postid;
-    String publisherid;
+    String postid, publisherid;
+    String postuid, postToken, imageName;
 
     FirebaseUser firebaseUser;
+    private FirebaseStorage storage;
 
     //수요조사
     CheckBox demands_btn;
@@ -58,24 +67,35 @@ public class ProductDetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();      //이거 없어도 되나
+
         Intent intent = getIntent();
-        postid=intent.getStringExtra("postid"); //댓글
-        publisherid = intent.getStringExtra("publisherid"); //댓글
 
-        imageView_image=findViewById(R.id.detailImage);
-        textView_title=findViewById(R.id.detailTitle);
-        textView_price=findViewById(R.id.detailPrice);
-        textView_deadline=findViewById(R.id.detailDeadline);
-        textView_form=findViewById(R.id.detailForm);
-        textView_description=findViewById(R.id.detailDescription);
+        //글 세팅(보여주기)
+        imageView_image = findViewById(R.id.detailImage);
+        textView_title = findViewById(R.id.detailTitle);
+        textView_price = findViewById(R.id.detailPrice);
+        textView_deadline = findViewById(R.id.detailDeadline);
+        textView_form = findViewById(R.id.detailForm);
+        textView_description = findViewById(R.id.detailDescription);
 
-
-        String image_url=intent.getStringExtra("image");
+        String image_url = intent.getStringExtra("image");
         String title = intent.getStringExtra("title");
         String price = intent.getStringExtra("price");
-        String deadline=intent.getStringExtra("deadline");
-        String form=intent.getStringExtra("form");
-        String description=intent.getStringExtra("description");
+        String deadline = intent.getStringExtra("deadline");
+        String form = intent.getStringExtra("form");
+        String description = intent.getStringExtra("description");
+
+        //댓글
+        postid = intent.getStringExtra("postid");
+        publisherid = intent.getStringExtra("publisherid");
+
+        //글 삭제
+        postuid = intent.getStringExtra("postuid");
+        postToken = intent.getStringExtra("postToken");
+        imageName = intent.getStringExtra("imageName");
+        System.out.println("이ㅣㅣ이이이미지 잉르므ㅡㄴ을믕ㄴㄹ ");
+        System.out.println(imageName);
 
         Glide.with(ProductDetailPage.this).load(image_url).into(imageView_image);
 
@@ -90,18 +110,16 @@ public class ProductDetailPage extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(this, commentList,postid);
+        commentAdapter = new CommentAdapter(this, commentList, postid);
         recyclerView.setAdapter(commentAdapter);
 
-        addcomment=findViewById(R.id.add_comment);
-        post=findViewById(R.id.comment_post);
-
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        addcomment = findViewById(R.id.add_comment);
+        post = findViewById(R.id.comment_post);
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (addcomment.getText().toString().equals("")){
+                if (addcomment.getText().toString().equals("")) {
                     Toast.makeText(ProductDetailPage.this, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     addcomment();
@@ -112,24 +130,17 @@ public class ProductDetailPage extends AppCompatActivity {
         readComments();     //댓글보여주는함수 부름
 
         //하트버튼 추가했다.
-        heart=findViewById(R.id.detail_heart);
-        isLiked(postid,heart); //하트함수
-
-        //수요조사
-        demands_btn = findViewById(R.id.btn_buy);
-        demands_t = findViewById(R.id.buy_count);
-
-        isDemands(postid,demands_btn);
-        nrDemands(demands_t, postid);
+        heart = findViewById(R.id.detail_heart);
+        isLiked(postid, heart); //하트함수
 
         heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( heart.getTag().equals("like")) {
+                if (heart.getTag().equals("like")) {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(firebaseUser.getUid())
                             .child(postid).setValue(true);
                     Toast.makeText(ProductDetailPage.this, "관심상품에 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(firebaseUser.getUid())
                             .child(postid).removeValue();
                     Toast.makeText(ProductDetailPage.this, "관심상품에서 취소되었습니다.", Toast.LENGTH_SHORT).show();
@@ -138,13 +149,20 @@ public class ProductDetailPage extends AppCompatActivity {
         });
 
         //수요조사
+        demands_btn = findViewById(R.id.btn_buy);
+        demands_t = findViewById(R.id.buy_count);
+
+        isDemands(postid, demands_btn);
+        nrDemands(demands_t, postid);
+
+        //수요조사
         demands_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (demands_btn.getTag().equals("not_demand")) {
                     FirebaseDatabase.getInstance().getReference().child("Demands").child(postid).child(firebaseUser.getUid()).setValue(true);
                     Toast.makeText(ProductDetailPage.this, "수요조사 찬성", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     FirebaseDatabase.getInstance().getReference().child("Demands").child(postid).child(firebaseUser.getUid()).removeValue();
                     Toast.makeText(ProductDetailPage.this, "수요조사 찬성 취소", Toast.LENGTH_SHORT).show();
                 }
@@ -161,9 +179,48 @@ public class ProductDetailPage extends AppCompatActivity {
                 ProductDetailPage.this.startActivity(intent);
             }
         });*/
+
+        //포스트 글 삭제
+        storage=FirebaseStorage.getInstance();
+        delete_post = findViewById(R.id.delete_post);
+
+        if (postuid.equals(firebaseUser.getUid())) {     //글쓴사람만 글 삭제할 수 있다.
+            delete_post.setVisibility(View.VISIBLE);
+            delete_post.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailPage.this).create();
+                    alertDialog.setTitle("작성하신 글을 삭제하시겠습니까?");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //사진이미지 먼저 Storage 지워주기.
+                            storage.getReference().child("images").child(imageName).delete().addOnSuccessListener(new OnSuccessListener<Object>() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    //해당글에 연관되는 글,댓글,수요조사,좋아요 삭제
+                                    deleteContent(postToken, postid);
+                                }
+                            });
+
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+            });
+
+        }
     }
 
-    //댓글 firebase에 등록 함수
+    //댓글 firebase에 등록 함수 1
     private void addcomment() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
 
@@ -179,15 +236,15 @@ public class ProductDetailPage extends AppCompatActivity {
     }
 
 
-    //댓글 불러와서 읽기 함수
-    private void readComments(){
+    //댓글 불러와서 읽기 함수 2
+    private void readComments() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments")
                 .child(postid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 commentList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     CommentsDTO comment = dataSnapshot.getValue(CommentsDTO.class);
                     commentList.add(comment);
                 }
@@ -201,7 +258,7 @@ public class ProductDetailPage extends AppCompatActivity {
         });
     }
 
-    //하트버튼 메소드 다시 만들기
+    //하트버튼 메소드 다시 만들기 3
     private void isLiked(final String postid, final ImageView imageView) {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -227,8 +284,8 @@ public class ProductDetailPage extends AppCompatActivity {
         });
     }
 
-    //수요조사 클릭
-    private void isDemands(final String postid, final CheckBox checkBox){
+    //수요조사 클릭 4
+    private void isDemands(final String postid, final CheckBox checkBox) {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -237,10 +294,10 @@ public class ProductDetailPage extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(firebaseUser.getUid()).exists()){
+                if (dataSnapshot.child(firebaseUser.getUid()).exists()) {
                     checkBox.setChecked(true);
                     checkBox.setTag("demand");
-                } else{
+                } else {
                     checkBox.setChecked(false);
                     checkBox.setTag("not_demand");
                 }
@@ -254,14 +311,14 @@ public class ProductDetailPage extends AppCompatActivity {
     }
 
 
-    //수요조사 수
-    private void nrDemands(final TextView demands_p, String postId){
+    //수요조사 수 5
+    private void nrDemands(final TextView demands_p, String postId) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Demands").child(postId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                demands_p.setText(dataSnapshot.getChildrenCount()+" people");
+                demands_p.setText(dataSnapshot.getChildrenCount() + " people");
             }
 
             @Override
@@ -271,4 +328,23 @@ public class ProductDetailPage extends AppCompatActivity {
         });
 
     }
+
+    //삭제함수6 (Post, Comments, Demands,Likes) 연관된 글 다 삭제.
+    private void deleteContent(String postToken, String postid) {
+
+        FirebaseDatabase.getInstance().getReference("Post").child(postToken).removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(ProductDetailPage.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference("Comments").child(postid).removeValue();
+        FirebaseDatabase.getInstance().getReference("Demands").child(postid).removeValue();
+        FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid()).child(postid).setValue(null);
+    }
+
 }

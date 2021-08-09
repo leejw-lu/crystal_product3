@@ -28,7 +28,7 @@ public class Frag1 extends Fragment {
     //지우 변수추가
     private RecyclerView recyclerView;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
-    private List<String> uidList = new ArrayList<>();
+    private List<String> uidList = new ArrayList<>();       //uidlist는 Post 밑에있는 글 고유토큰값 모음.
     private FirebaseDatabase firebaseDatabase;
 
     @Nullable
@@ -42,9 +42,9 @@ public class Frag1 extends Fragment {
 
         recyclerView.setAdapter(new MyRecyclerViewAdapter());
 
-        final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
+        final MyRecyclerViewAdapter uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList,  new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImageDTO details) {
+            public void onItemClick(ImageDTO details,String pos) {
                 //showToast(details.getTitle() + " Clicked");
 
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
@@ -60,6 +60,11 @@ public class Frag1 extends Fragment {
                 intent.putExtra("postid",details.getPostid());
                 intent.putExtra("publisherid",details.getUid());
 
+                //글 삭제할때 글올린 사람의 uid 보내기
+                intent.putExtra("postuid",details.getUid());
+                //글 삭제 (Post밑의 토큰 삭제+이미지 삭제)
+                intent.putExtra("postToken",pos);
+                intent.putExtra("imageName",details.getImageName());
                 startActivity(intent);
             }
         });
@@ -73,11 +78,16 @@ public class Frag1 extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {  //변화된 값이 DataSnapshot 으로 넘어온다.
                 //데이터가 쌓이기 때문에  clear()
                 imageDTOList.clear();
+                uidList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren())           //여러 값을 불러와 하나씩
                 {
                     ImageDTO imageDTO = ds.getValue(ImageDTO.class);
+                    String uidKey=ds.getKey();  //uidKey는 글 Post 밑의 고유토큰값.
+
                     imageDTOList.add(imageDTO);
+                    uidList.add(uidKey);
                 }
+
                 uploadedImageAdapter.notifyDataSetChanged();
             }
 

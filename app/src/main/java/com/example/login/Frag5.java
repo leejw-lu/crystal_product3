@@ -34,8 +34,8 @@ public class Frag5 extends Fragment {
     private Button btn_logout;
 
     private FirebaseAuth mAuth;
-    private FirebaseStorage storage;
-    private FirebaseDatabase database;
+   // private FirebaseStorage storage;
+   // private FirebaseDatabase database;
 
     //database 이메일 가져오기
     DatabaseReference mDatabase;
@@ -46,6 +46,7 @@ public class Frag5 extends Fragment {
     private MyRecyclerViewAdapter uploadedImageAdapter;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> postList = new ArrayList<>();
+    private List<String> uidList = new ArrayList<>();
     private FirebaseUser firebaseUser;
     private ImageDTO imageDTO;
 
@@ -79,9 +80,9 @@ public class Frag5 extends Fragment {
 
         recyclerView.setAdapter(new MyRecyclerViewAdapter());
 
-        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, postList, new MyRecyclerViewAdapter.ItemClickListener() {
+        uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImageDTO details) {
+            public void onItemClick(ImageDTO details,String pos) {
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
                 //intent했을때, productdetailpage.java 액티비티로 해당 post의 값 보내기
                 intent.putExtra("image",details.getImageUrl());
@@ -94,6 +95,12 @@ public class Frag5 extends Fragment {
                 //댓글기능할떄 추가함 + 하트
                 intent.putExtra("postid",details.getPostid());
                 intent.putExtra("publisherid",details.getUserEmail());
+
+                //글 삭제할때 글올린 사람의 uid 보내기
+                intent.putExtra("postuid",details.getUid());
+                //글 삭제 (Post밑의 토큰 삭제.)
+                intent.putExtra("postToken",pos);
+                intent.putExtra("imageName",details.getImageName());
 
                 startActivity(intent);
             }
@@ -176,11 +183,14 @@ public class Frag5 extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 imageDTOList.clear();
+                uidList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
+                    String uidKey=snapshot.getKey();
                     for (String postid : postList){
                         if (imageDTO.getPostid().equals(postid)){
                             imageDTOList.add(imageDTO);
+                            uidList.add(uidKey);
                         }
                     }
                 }

@@ -48,7 +48,7 @@ public class Frag2 extends Fragment {
 
         uploadedImageAdapter = new MyRecyclerViewAdapter(imageDTOList, uidList, new MyRecyclerViewAdapter.ItemClickListener() {
             @Override
-            public void onItemClick(ImageDTO details) {
+            public void onItemClick(ImageDTO details, String pos) {
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
                 //intent했을때, productdetailpage.java 액티비티로 해당 post의 값 보내기
                 intent.putExtra("image",details.getImageUrl());
@@ -61,6 +61,12 @@ public class Frag2 extends Fragment {
                 //댓글기능할떄 추가함 + 하트
                 intent.putExtra("postid",details.getPostid());
                 intent.putExtra("publisherid",details.getUserEmail());
+
+                //글 삭제할때 글올린 사람의 uid 보내기
+                intent.putExtra("postuid",details.getUid());
+                //글 삭제 (Post밑의 토큰 삭제.)
+                intent.putExtra("postToken",pos);
+                intent.putExtra("imageName",details.getImageName());
 
                 startActivity(intent);
             }
@@ -99,9 +105,12 @@ public class Frag2 extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 imageDTOList.clear();
+                uidList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
+                    String uidKey=snapshot.getKey();
                     imageDTOList.add(imageDTO);
+                    uidList.add(uidKey);
                 }
                 uploadedImageAdapter.notifyDataSetChanged();
             }
@@ -124,9 +133,12 @@ public class Frag2 extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (search_bar.getText().toString().equals("")) {
                     imageDTOList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    uidList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
+                        String uidKey=snapshot.getKey();
                         imageDTOList.add(imageDTO);
+                        uidList.add(uidKey);
                     }
                     uploadedImageAdapter.notifyDataSetChanged();
                 }

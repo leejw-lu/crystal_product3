@@ -9,8 +9,17 @@ public class  ImageDTO {
     public String userEmail;
     public String price;
     public String deadline;
-    public String contactLink;
     public String purchaseLink;
+
+    public String imageName;    //이미지 삭제를 위해 삭제할 이미지파일명 필요.
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -60,9 +69,7 @@ public class  ImageDTO {
         this.userEmail = userEmail;
     }
 
-    public String getPrice() {
-        return price;
-    }
+    public String getPrice() { return price; }
 
     public void setPrice(String price) {
         this.price = price;
@@ -76,13 +83,6 @@ public class  ImageDTO {
         this.deadline = deadline;
     }
 
-    public String getContactLink() {
-        return contactLink;
-    }
-
-    public void setContactLink(String contactLink) {
-        this.contactLink = contactLink;
-    }
 
     public String getPurchaseLink() {
         return purchaseLink;

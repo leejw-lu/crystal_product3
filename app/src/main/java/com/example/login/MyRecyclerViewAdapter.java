@@ -38,13 +38,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private ItemClickListener mItemClickListener;
 
+
     public MyRecyclerViewAdapter(){}    //생성자
     public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList, ItemClickListener itemClickListener)
     {
         this.imageDTOList = imageDTOList;
         this.mItemClickListener = itemClickListener;
         this.uidList = uidList;
-        this.context=context;   //이건 내가 추가. -> 없어도 되나...???
+        //this.context=context;   //이건 내가 추가. -> 없어도 되나...???
         storage = FirebaseStorage.getInstance();
     }
 
@@ -61,18 +62,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, final int position) {
-        //holder.textViewUser.setText(imageDTOList.get(position).getUserId()); //fragment라 그런지 ViewHolder안하면 오류남.
-        //((ViewHolder)holder).textViewUser.setText(imageDTOList.get(position).getUserId());
 
-        holder.itemView.setOnClickListener(view-> {
-            mItemClickListener.onItemClick(imageDTOList.get(position));
+        holder.itemView.setOnClickListener(view-> {         //리사이클러뷰에서 item 눌렀을때 정보.
+            mItemClickListener.onItemClick(imageDTOList.get(position),uidList.get(position)); //uidList에서 클릭한 글의 토큰값 가져오기.
         });
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final ImageDTO imageDTO = imageDTOList.get(position);
 
-//양성원  ((ViewHolder)holder).textViewDesc.setText(imageDTOList.get(position).getDescription()); 지움  >> 카드 뷰에는 description 필요 없음
-        ((ViewHolder)holder).textViewTitle.setText(imageDTOList.get(position).getTitle());
+        ((ViewHolder)holder).textViewTitle.setText(imageDTOList.get(position).getTitle());      //fragment라 그런지 ViewHolder안하면 오류남.
         ((ViewHolder)holder).textViewPrice.setText(imageDTOList.get(position).getPrice());
         ((ViewHolder)holder).textViewDeadline.setText(imageDTOList.get(position).getDeadline());
         ((ViewHolder)holder).textViewDescription.setText(imageDTOList.get(position).getDescription());
@@ -111,7 +109,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
     public interface ItemClickListener{
-        void onItemClick(ImageDTO details);
+        void onItemClick(ImageDTO details,String pos);
     }
 
     @Override
@@ -139,8 +137,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             textViewPrice = itemView.findViewById(R.id.item_price);
             textViewDeadline = itemView.findViewById(R.id.item_deadline);
             textViewDescription = itemView.findViewById(R.id.item_description);
-            //textViewContactLink = itemView.findViewById(R.id.item_contactlink);
-            //textViewPurchaseLink = itemView.findViewById(R.id.item_purchaselink);
             imageView = itemView.findViewById(R.id.item_image);
             imageViewHeart = itemView.findViewById(R.id.item_heart);
 
@@ -148,8 +144,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
-
-    private void isLiked(final String postid, final ImageView imageView){    //isLiked함수 ProductDetailPage에서 쓸수있게 public으로 바꿈.
+    private void isLiked(final String postid, final ImageView imageView){
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 

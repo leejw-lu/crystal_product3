@@ -57,7 +57,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
 
-
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
@@ -212,7 +211,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
                         imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
-                        imageDTO.setUserEmail(mAuth.getCurrentUser().getEmail());
+                        imageDTO.imageName=file.getLastPathSegment();   //imageName에 사진파일의 이름 넣기.
 
                         database.getReference().child("Post").push().setValue(imageDTO);
 
