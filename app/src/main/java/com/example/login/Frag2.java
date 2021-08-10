@@ -101,6 +101,7 @@ public class Frag2 extends Fragment {
                 .startAt(s)
                 .endAt(s+"\uf8ff");
 
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,7 +110,7 @@ public class Frag2 extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                     String uidKey=snapshot.getKey();
-                    imageDTOList.add(imageDTO);
+                    imageDTOList.add(imageDTO);  //imageDTOList.add(0, imageDTO);
                     uidList.add(uidKey);
                     
                 }
@@ -138,7 +139,7 @@ public class Frag2 extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                         String uidKey=snapshot.getKey();
-                        imageDTOList.add(imageDTO);
+                        imageDTOList.add(imageDTO); //imageDTOList.add(0, imageDTO);
                         uidList.add(uidKey);
                     }
                     uploadedImageAdapter.notifyDataSetChanged();
@@ -152,5 +153,3 @@ public class Frag2 extends Fragment {
         });
     }
 }
-
-

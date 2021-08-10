@@ -1,5 +1,6 @@
 package com.example.login;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,30 +21,33 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Frag3 extends Fragment {
     private View view;
-    //양성원
     private RecyclerView recyclerView;
     private CalendarAdapter calendarAdapter;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> postList = new ArrayList<>();
-    private List<String> deadlineList = new ArrayList<>();
     private FirebaseUser firebaseUser;
     String clickdate;
 
-    //달력
-    Calendar cal = Calendar.getInstance(); //오늘날짜 입력하기.
-    public CalendarView calendarView;
     public TextView text_date;
 
+    //커스텀 달력
+    public int count = 0;
+    public MaterialCalendarView materialCalendarView;
 
     @Nullable
     @Override
@@ -64,27 +68,50 @@ public class Frag3 extends Fragment {
         SimpleDateFormat format = new SimpleDateFormat("yyyy / M /d");   //오늘날짜 받아오기.
         String date = format.format(Calendar.getInstance().getTime());
 
+        //커스텀 달력
+        materialCalendarView = view.findViewById(R.id.calendarView);
+        materialCalendarView.setSelectedDate(CalendarDay.today());
+
         text_date=view.findViewById(R.id.text_calendar);
         text_date.setText(date);        //처음 세팅할때 오늘날짜 표시되기
         text_date=view.findViewById(R.id.text_calendar);
-        calendarView=view.findViewById(R.id.calendarView);
         recyclerView.setAdapter(calendarAdapter);
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-
+            public void onDateSelected(@NonNull @NotNull MaterialCalendarView widget, @NonNull @NotNull CalendarDay date, boolean selected) {
+                int dayOfMonth = date.getDay();
+                int month = date.getMonth();
+                int year = date.getYear();
                 clickdate=String.format("%d/%d/%d",year,month+1,dayOfMonth);
                 text_date.setText(clickdate);
-                System.out.println(clickdate);
-
                 getHeart();
             }
         });
 
+        materialCalendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator()
+        );
+
+        getHeart2();
         return view;
     }
 
+    private int getYear(String year){
+        int intYear = Integer.parseInt(year);
+        return intYear;
+    }
+
+    private int getMonth(String month){
+        int intMonth = Integer.parseInt(month);
+        return intMonth - 1;
+    }
+
+    private int getDay(String day){
+        int intDay = Integer.parseInt(day);
+        return intDay;
+    }
 
     private void showDeadlineProduct(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");
@@ -92,7 +119,6 @@ public class Frag3 extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 imageDTOList.clear();
-                //deadlineList.clear();
                 String deadline2;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){       //이거 하면 post의 토크값
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
@@ -102,15 +128,11 @@ public class Frag3 extends Fragment {
                             deadline2=imageDTO.getDeadline();   //날짜 받아오기
 
                             if (clickdate.equals(deadline2)){
-                                //System.out.println("클릭한날짜");
-                                //System.out.println(clickdate);
                                 imageDTOList.add(imageDTO);
                             }
                         }
                     }
                 }
-                //System.out.println("관심상품한 날짜만 가져오기");
-                //System.out.println(deadlineList);
                 calendarAdapter.notifyDataSetChanged();
             }
 
@@ -141,4 +163,56 @@ public class Frag3 extends Fragment {
         });
     }
 
+
+
+    private void showDeadlineProduct2(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                imageDTOList.clear();
+                //deadlineList.clear();
+                String deadline2;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){       //이거 하면 post의 토크값
+                    ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
+                    for (String postid : postList) {
+                        if (imageDTO.getPostid().equals(postid)) {
+                            //그냥 deadline 스트링 하나만
+                            deadline2=imageDTO.getDeadline();   //날짜 받아오기
+                                String dateArray[] = deadline2.split("/");
+                                getYear(dateArray[0]);
+                                getMonth(dateArray[1]);
+                                getDay(dateArray[2]);
+                                materialCalendarView.addDecorators(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.from(getYear(dateArray[0]),getMonth(dateArray[1]),getMonth(dateArray[2])+1))));
+                            }
+                        }
+                    }
+                }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void getHeart2() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                postList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    postList.add(snapshot.getKey());
+                }
+                showDeadlineProduct2();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

@@ -54,8 +54,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'com.firebase:firebase-client-android:2.5.0'
-    //양성원 추가 캘린더!!!!!!!!!!
-    //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    implementation "com.prolificinteractive:material-calendarview:1.4.3" //양성원 추가 캘린더!!!!!!!!!!
 
 
 //    // Import the BoM for the Firebase platform
