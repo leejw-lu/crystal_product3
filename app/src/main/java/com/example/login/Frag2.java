@@ -83,7 +83,8 @@ public class Frag2 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchTitles(charSequence.toString());
+                searchTitles(charSequence.toString().toLowerCase());
+                //.toString().toUpperCase 소문자로 변환해서 검색 << 이렇게하면 또 대문자 제목을 못 찾아냄..
             }
 
             @Override
@@ -109,8 +110,9 @@ public class Frag2 extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                     String uidKey=snapshot.getKey();
-                    imageDTOList.add(imageDTO);
+                    imageDTOList.add(0, imageDTO);
                     uidList.add(uidKey);
+                    
                 }
                 uploadedImageAdapter.notifyDataSetChanged();
             }
@@ -137,7 +139,7 @@ public class Frag2 extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                         String uidKey=snapshot.getKey();
-                        imageDTOList.add(imageDTO);
+                        imageDTOList.add(0, imageDTO);
                         uidList.add(uidKey);
                     }
                     uploadedImageAdapter.notifyDataSetChanged();

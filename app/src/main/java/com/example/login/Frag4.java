@@ -27,6 +27,8 @@ import androidx.loader.content.CursorLoader;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,9 @@ import java.util.Calendar;
 
 
 public class Frag4 extends Fragment implements IOnBackPressed {
+
+    private static final int RESULT_OK = -1;
+    private static final int RESULT_CANCELED = 0;
 
     @Override
     public void onBackPressed() {
@@ -144,16 +149,22 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         //date.setText(null);
 
 
-       return view;
+        return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == GALLERY_CODE) {
+            if (resultCode == RESULT_OK) {
+                //원래 코드
+                imageUrl = getRealPathFromUri(data.getData());
+                File f = new File(imageUrl);
+                ivProfile.setImageURI(Uri.fromFile(f));
 
-            imageUrl = getRealPathFromUri(data.getData());
-            File f = new File(imageUrl);
-            ivProfile.setImageURI(Uri.fromFile(f));
+        }
+            else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

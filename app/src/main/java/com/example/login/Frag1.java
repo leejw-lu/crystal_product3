@@ -84,7 +84,7 @@ public class Frag1 extends Fragment {
                     ImageDTO imageDTO = ds.getValue(ImageDTO.class);
                     String uidKey=ds.getKey();  //uidKey는 글 Post 밑의 고유토큰값.
 
-                    imageDTOList.add(imageDTO);
+                    imageDTOList.add(0, imageDTO);
                     uidList.add(uidKey);
                 }
 

@@ -21,8 +21,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    //private long lastTimeBackPressed;   //뒤로가기2번 종료.
+    //뒤로가기
+    private final long FINISH_INTERVAL_TIME = 2000;  //이 시간내에 연속적으로 뒤로가기 버튼을 누를 경우 종료
+    private long backPressedTime = 0;  //뒤로가기가 일어난 시간
 
     private BottomNavigationView bnv; //하단바
     private FragmentManager fm;
@@ -127,18 +128,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //수정
     @Override
     public void onBackPressed() {
-        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        if (fragmentList != null) {
-            Toast.makeText(MainActivity.this, "뒤로가기버튼클릭", Toast.LENGTH_SHORT).show();
-            for(Fragment fragment : fragmentList){
-                if(fragment instanceof IOnBackPressed){
-                    ((IOnBackPressed)fragment).onBackPressed();
-                }
-            }
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+            super.onBackPressed();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(this, "뒤로가기 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }
