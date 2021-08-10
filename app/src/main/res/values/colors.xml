@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainPurple">#A3A0ED</color>
     <color name="backColor">#ECEEF8</color>
+    <color name="iconColor">#A29FEC</color>
 </resources>

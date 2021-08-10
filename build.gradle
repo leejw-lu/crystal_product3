@@ -20,7 +20,7 @@ allprojects {
         //jcenter() // Warning: this repository is going to shut down soon
 
         //양성원 추가 캘린더 !!!!!1
-        //maven {url 'https://jitpack.io'}
+        maven {url 'https://jitpack.io'}
     }
 }
 

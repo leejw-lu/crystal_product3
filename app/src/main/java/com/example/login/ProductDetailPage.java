@@ -49,7 +49,7 @@ public class ProductDetailPage extends AppCompatActivity {
 
     EditText addcomment;
     ImageView heart;
-    TextView post;
+    ImageView post;
 
     String postid, publisherid;
     String postuid, postToken, imageName;

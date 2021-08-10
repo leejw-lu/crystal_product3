@@ -1,172 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_delete_24"
-                android:id="@+id/delete_post"
-                android:layout_gravity="right"
-                android:layout_margin="15dp"
-                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/detailImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/detailTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/base_image_frag4" />
+
+            <ImageView
+                android:id="@+id/delete_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_baseline_delete_24"
+                app:layout_constraintRight_toRightOf="parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/detailImage" />
 
             <TextView
                 android:id="@+id/detailTitle"
-                android:layout_width="383dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detailImage"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="22dp"
-                android:text="제목"
+                android:layout_marginTop="10dp"
+                android:text="컴퓨터공학과 과잠"
                 android:textColor="@color/black"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailImage" />
 
             <TextView
-                android:id="@+id/detailPrice"
-                android:layout_width="383dp"
+                android:id="@+id/deadlineText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detailTitle"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="17dp"
-                android:text="가격"
-                android:textSize="15dp" />
+                android:layout_marginLeft="30dp"
+                android:text="마감일"
+                android:textSize="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailTitle" />
 
             <TextView
                 android:id="@+id/detailDeadline"
-                android:layout_width="383dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detailPrice"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:text="마감일"
-                android:textSize="15dp" />
+                android:layout_marginLeft="15dp"
+                android:text="2021/08/21"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintLeft_toRightOf="@+id/deadlineText"
+                app:layout_constraintTop_toBottomOf="@+id/detailTitle" />
+
+            <ImageView
+                android:id="@+id/linkIcon"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/link_icon"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deadlineText" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/linkText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="링크"-->
+<!--                android:textSize="15sp"-->
+<!--                app:layout_constraintLeft_toRightOf="@+id/linkIcon"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/detailDeadline" />-->
 
             <TextView
                 android:id="@+id/detailForm"
-                android:layout_width="383dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detailDeadline"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
                 android:autoLink="web"
                 android:linksClickable="true"
-                android:text="구글폼주소"
-                android:textSize="15dp" />
+                android:text="naver.com"
+                android:textColorLink="#615DB6"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@id/detailPrice"
+                app:layout_constraintLeft_toRightOf="@id/linkIcon"
+                app:layout_constraintTop_toBottomOf="@+id/detailDeadline" />
+
+            <TextView
+                android:id="@+id/detailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456"
+                android:textColor="@color/black"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                app:layout_constraintRight_toLeftOf="@id/wonText"
+                app:layout_constraintTop_toBottomOf="@id/detailForm" />
+
+            <TextView
+                android:id="@+id/wonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:text="원"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailForm" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="350dp"
+                android:layout_height="2px"
+                android:layout_marginTop="5dp"
+                android:background="#34000000"
+                app:layout_constraintTop_toBottomOf="@id/detailPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="상품설명"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1"
+                app:layout_constraintBottom_toTopOf="@id/detailDescription"/>
+
 
             <TextView
                 android:id="@+id/detailDescription"
-                android:layout_width="383dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detailForm"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:scrollbars="vertical"
-                android:text="상세설명"
-                android:textSize="15dp" />
-            <TextView
-                android:paddingLeft="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/comment_recyclerview"
-                android:layout_marginTop="20dp"
-                android:id="@+id/notice_buy"
+                android:padding="35dp"
                 android:textSize="15dp"
-                android:text="수요조사에 찬성하는 경우에만 아래 버튼을 클릭해주세요."/>
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="350dp"
+                android:layout_height="2px"
+                android:layout_marginTop="5dp"
+                android:background="#34000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/notice_buy"
+                app:layout_constraintTop_toBottomOf="@id/detailDescription" />
+
+
+            <TextView
+                android:id="@+id/notice_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수요조사에 찬성하는 경우에만 아래 버튼을 클릭해주세요."
+                android:textSize="14dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line2" />
 
             <CheckBox
                 android:id="@+id/btn_buy"
-                android:layout_marginLeft="15dp"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="구매 의향 있음."
-                android:textColor="#8C8C8C"
-                android:buttonTint="#D1B2FF"/>
+                android:buttonTint="@color/mainPurple"
+                android:text="구매 예정"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintRight_toLeftOf="@+id/buy_count"
+                app:layout_constraintTop_toBottomOf="@id/notice_buy" />
 
             <TextView
                 android:id="@+id/buy_count"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
                 android:layout_toRightOf="@+id/btn_buy"
-                android:paddingLeft="15dp"
-                android:textSize="15dp"/>
+                android:textSize="15dp"
+                android:text="4 people"
+                android:textColor="@color/mainPurple"
+                app:layout_constraintBottom_toTopOf="@id/comment_recyclerview"
+                app:layout_constraintLeft_toRightOf="@+id/btn_buy"
+                app:layout_constraintTop_toBottomOf="@+id/notice_buy" />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:paddingLeft="15dp"
+                android:id="@+id/comment_recyclerview"
+                android:background="#F1EFFB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dp"
                 android:layout_below="@id/detailDescription"
+                android:scrollbarFadeDuration="0"
                 android:layout_marginTop="20dp"
-                android:id="@+id/comment_recyclerview"/>
+                android:layout_marginBottom="30dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buy_count"
+                android:elevation="4dp"/>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
-
-    //하단 댓글입력창 고정
-
-    <LinearLayout
-        android:id="@+id/bottom_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+    </androidx.core.widget.NestedScrollView>
 
         <ImageView
             android:id="@+id/detail_heart"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="2dp"
-            android:src="@drawable/heart_off"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/heart_off"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <EditText
             android:id="@+id/add_comment"
-            android:layout_width="253dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="3"
-            android:hint="댓글을 입력하세요."
-            android:backgroundTint="#9391C1"
-            android:inputType="textMultiLine"/>
-
-        <TextView
-            android:id="@+id/comment_post"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="POST"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/mainPurple"
-            android:textSize="13dp"
-            android:textStyle="bold" />
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:backgroundTint="@color/mainPurple"
+            android:hint="댓글을 입력하세요."
+            android:scrollbars = "vertical"
+            android:inputType="textMultiLine"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toRightOf="@id/detail_heart"
+            app:layout_constraintRight_toLeftOf="@id/comment_post"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/comment_post"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/post_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="14dp"
+            />
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

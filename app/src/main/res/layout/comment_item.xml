@@ -16,6 +16,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/ic_baseline_account_circle_24" />
 
         <LinearLayout
@@ -25,17 +26,20 @@
 
             <TextView
                 android:id="@+id/username"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
-                android:layout_marginRight="13dp"
+                android:layout_marginRight="30dp"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textStyle="normal"
                 android:layout_height="wrap_content"
                 android:maxLines="5" />
 
@@ -45,8 +49,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="3px"
+        android:layout_gravity="center"
+        android:layout_height="2px"
         android:layout_margin="5dp"
-        android:background="#D8BFBED1"/>
+        android:background="#D87F7CC1"/>
 
 </LinearLayout>

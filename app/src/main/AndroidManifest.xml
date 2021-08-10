@@ -25,7 +25,8 @@
 
         </activity>
 
-        <activity android:name="ProductDetailPage" />
+        <activity android:name="ProductDetailPage"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">
 
