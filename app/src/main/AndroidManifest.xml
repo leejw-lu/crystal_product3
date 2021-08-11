@@ -28,7 +28,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".PasswordResetActivity"/>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
     </application>

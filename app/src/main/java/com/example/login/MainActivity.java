@@ -45,27 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
 
-        // 툴바 활성화
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-        // 툴바 기본 타이틀 없애기
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-        // 햄버거 버튼 불러오기
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
-
-//        // 툴바에 적힐 제목
-//        getSupportActionBar().setTitle("수정물산");
-//        getSupportActionBar().setHomeButtonEnabled(true);
-
-
-
-        /////////////////
         bnv = findViewById(R.id.bottomNavi);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

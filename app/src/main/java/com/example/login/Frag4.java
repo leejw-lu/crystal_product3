@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -105,7 +106,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             }
         });
 
-        btnUpload.setOnClickListener(new View.OnClickListener() {
+        ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //앨범 불러오는 코드
@@ -148,9 +149,30 @@ public class Frag4 extends Fragment implements IOnBackPressed {
 
         //date.setText(null);
 
+        //해당하는 edittext
+        etDesc.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() ==R.id.description) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction()&MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
 
         return view;
     }
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -161,7 +183,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                 File f = new File(imageUrl);
                 ivProfile.setImageURI(Uri.fromFile(f));
 
-        }
+            }
             else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
             }
