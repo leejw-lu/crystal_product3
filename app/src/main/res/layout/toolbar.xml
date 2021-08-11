@@ -9,18 +9,17 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/Theme.AppCompat.Light">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:src="@drawable/crystal_logo"
-        />
-
+        android:layout_marginRight="2dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수정물산"
-        android:textColor="#7470CD"
+        android:textColor="@color/mainPurple"
         android:textSize="20dp"
         android:layout_gravity="center"
         android:textStyle="bold" />

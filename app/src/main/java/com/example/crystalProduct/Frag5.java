@@ -1,26 +1,21 @@
-package com.example.login;
+package com.example.crystalProduct;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,12 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Frag5 extends Fragment {
@@ -59,6 +50,10 @@ public class Frag5 extends Fragment {
     private FirebaseUser firebaseUser;
     private ImageDTO imageDTO;
 
+    //이지현
+    private TextView emptyLiked;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -80,6 +75,8 @@ public class Frag5 extends Fragment {
 
         //DatabaseReference 원하는 변수 = mDatabase.child(uid).child("nickname");
         // uid = 파이어베이스 유저 고유 uid , nickname = 데이터 베이스 child 명
+
+        emptyLiked = (TextView) view.findViewById(R.id.emptyLiked);
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -202,6 +199,17 @@ public class Frag5 extends Fragment {
 
         getHeart(); //관심상품목록 가져오기
 
+
+        /////이지현추가
+
+        ImageView heartIcon = (ImageView) view.findViewById(R.id.SecondIcon);
+        int color = ContextCompat.getColor(getActivity(), R.color.mainPurple);
+        heartIcon.setColorFilter(color);
+
+        if(postList.size()==0)
+            emptyLiked.setVisibility(View.VISIBLE);
+
+
         return view;
     }
 
@@ -246,6 +254,8 @@ public class Frag5 extends Fragment {
                             imageDTOList.add(imageDTO);
                             uidList.add(uidKey);
                         }
+                        if (imageDTOList.size()!=0)
+                            emptyLiked.setVisibility(View.GONE);
                     }
                 }
                 uploadedImageAdapter.notifyDataSetChanged();
@@ -258,4 +268,5 @@ public class Frag5 extends Fragment {
         });
     }
 }
+
 

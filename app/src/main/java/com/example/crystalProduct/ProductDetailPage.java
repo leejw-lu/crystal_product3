@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.crystalProduct;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,8 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -343,6 +341,8 @@ public class ProductDetailPage extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("Comments").child(postid).removeValue();
         FirebaseDatabase.getInstance().getReference("Demands").child(postid).removeValue();
         FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid()).child(postid).setValue(null);
+
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 }

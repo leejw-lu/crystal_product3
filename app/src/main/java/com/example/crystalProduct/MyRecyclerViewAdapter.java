@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.crystalProduct;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,7 +26,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {

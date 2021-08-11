@@ -1,6 +1,7 @@
-package com.example.login;
+package com.example.crystalProduct;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,8 +29,6 @@ import androidx.loader.content.CursorLoader;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -74,6 +73,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private String date;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -251,6 +251,9 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         etPrice.setText("");
                         etPurchaseLink.setText("");
                         date = "";
+
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+
                     } else {
                         // Handle failures
                         Toast.makeText(context,"업로드 되지 않았습니다.",Toast.LENGTH_SHORT).show();

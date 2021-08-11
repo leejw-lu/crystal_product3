@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.crystalProduct;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 //2
@@ -55,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 //로그인 성공!!
-                                Intent intent= new Intent(LoginActivity.this, com.example.login.MainActivity.class);
+                                Intent intent= new Intent(LoginActivity.this, com.example.crystalProduct.MainActivity.class);
                                 startActivity(intent);
                                 finish(); //현재 액티비티 파괴
                             } else{

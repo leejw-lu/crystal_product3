@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.crystalProduct;
 
 
 import android.os.Bundle;
@@ -9,15 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

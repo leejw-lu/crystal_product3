@@ -7,7 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="mainPurple">#A3A0ED</color>
-    <color name="backColor">#ECEEF8</color>
-    <color name="iconColor">#A29FEC</color>
+    <color name="mainPurple">#6a70ae</color>
+    <color name="backColor">#e5e7f1</color>
+    <color name="blueColor">#608ec6</color>
+    <color name="skyblueColor">#70c9f3</color>
+    <color name="blueButtonColor">#90BEF6</color>
 </resources>

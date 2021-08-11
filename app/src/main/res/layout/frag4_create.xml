@@ -115,7 +115,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="30dp"
                 android:backgroundTint="@color/mainPurple"
-                android:hint="가격"
+                android:hint="가격 (원)"
                 android:inputType="number"
                 android:padding="8dp"
                 android:textColorHint="#4F4C95"
