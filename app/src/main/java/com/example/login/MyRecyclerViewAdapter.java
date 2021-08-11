@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private FirebaseUser firebaseUser;
 
@@ -38,14 +40,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private ItemClickListener mItemClickListener;
 
+    //검색 필터
+    private List<ImageDTO> un_imageDTOList = new ArrayList<>();   //unfiltered
 
     public MyRecyclerViewAdapter(){}    //생성자
     public MyRecyclerViewAdapter(List<ImageDTO> imageDTOList, List<String> uidList, ItemClickListener itemClickListener)
     {
         this.imageDTOList = imageDTOList;
+        this.un_imageDTOList = imageDTOList;     //unfiltered
         this.mItemClickListener = itemClickListener;
         this.uidList = uidList;
-        //this.context=context;   //이건 내가 추가. -> 없어도 되나...???
         storage = FirebaseStorage.getInstance();
     }
 
@@ -105,6 +109,36 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         });
 
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if(charString.isEmpty()) {
+                    imageDTOList = un_imageDTOList;
+                } else {
+                    List<ImageDTO> filteringList = new ArrayList<>();
+                    for(ImageDTO name : un_imageDTOList) {
+                        if(name.getTitle().toLowerCase().contains(charString.toLowerCase())) {
+                            filteringList.add(name);
+                        }
+                    }
+                    imageDTOList = filteringList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = imageDTOList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                imageDTOList = (List<ImageDTO>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
 

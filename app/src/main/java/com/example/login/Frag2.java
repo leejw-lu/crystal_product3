@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Frag2 extends Fragment {
+public class Frag2 extends Fragment implements TextWatcher {
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter uploadedImageAdapter;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
@@ -77,18 +77,17 @@ public class Frag2 extends Fragment {
 
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchTitles(charSequence.toString().toLowerCase());
-                //.toString().toUpperCase 소문자로 변환해서 검색 << 이렇게하면 또 대문자 제목을 못 찾아냄..
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                uploadedImageAdapter.getFilter().filter(s);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -96,34 +95,20 @@ public class Frag2 extends Fragment {
         return view;
     }
 
-    private void searchTitles(String s){
-        Query query = FirebaseDatabase.getInstance().getReference("Post").orderByChild("title")
-                .startAt(s)
-                .endAt(s+"\uf8ff");
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                imageDTOList.clear();
-                uidList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
-                    String uidKey=snapshot.getKey();
-                    imageDTOList.add(imageDTO);  //imageDTOList.add(0, imageDTO);
-                    uidList.add(uidKey);
-                    
-                }
-                uploadedImageAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        uploadedImageAdapter.getFilter().filter(s);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 
     private void readTitles() {
 
