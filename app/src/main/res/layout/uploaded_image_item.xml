@@ -1,114 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="3dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="17dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="3dp"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp">
+        card_view:cardElevation="5dp"
+        card_view:layout_constraintLeft_toLeftOf="parent"
+        card_view:layout_constraintRight_toRightOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent"
 
-        <LinearLayout
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:src="@color/mainPurple"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="하나둘셋넷다섯여섯일곱"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:ems="9"
+                android:maxLines="1"
+                android:ellipsize="end"
+                card_view:layout_constraintLeft_toRightOf="@id/item_image"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/item_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:padding="5dp"
-                    android:layout_margin="10dp"
-                    android:src="@color/purple_200" />
+            <ImageView
+                android:id="@+id/item_heart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/heart_off"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/item_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/item_image"
-                    android:layout_toRightOf="@+id/item_image"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp" />
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:text="가격 : "
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                card_view:layout_constraintLeft_toRightOf="@id/item_image"
+                card_view:layout_constraintTop_toBottomOf="@id/item_title" />
 
-                    <ImageView
-                        android:id="@+id/item_heart"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="17dp"
-                        android:layout_marginLeft="332dp"
-                        android:src="@drawable/heart_off" />
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/item_title"
+                android:layout_toRightOf="@+id/text_price"
+                android:text="39999"
+                android:textColor="@color/black"
+                android:textSize="15dp"
 
-                <TextView
-                    android:id="@+id/text_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/item_title"
-                    android:layout_toRightOf="@+id/item_image"
-                    android:text="가격 : "
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                card_view:layout_constraintLeft_toRightOf="@id/text_price"
+                card_view:layout_constraintTop_toBottomOf="@id/item_title" />
 
-                <TextView
-                    android:id="@+id/item_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/item_title"
-                    android:layout_toRightOf="@+id/text_price"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="원"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                card_view:layout_constraintLeft_toRightOf="@id/item_price"
+                card_view:layout_constraintTop_toBottomOf="@id/item_title" />
 
-                <TextView
-                    android:id="@+id/text_deadline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/item_price"
-                    android:layout_toRightOf="@+id/item_image"
-                    android:text="마감일 : "
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"/>
+            <TextView
+                android:id="@+id/text_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/item_price"
+                android:layout_marginLeft="5dp"
+                android:text="마감일 : "
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                card_view:layout_constraintLeft_toRightOf="@id/item_image"
+                card_view:layout_constraintTop_toBottomOf="@id/text_price" />
 
-                <TextView
-                    android:id="@+id/item_deadline"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/item_price"
-                    android:layout_toRightOf="@+id/text_deadline"
-                    android:textSize="15dp"
-                    android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/item_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/item_price"
+                android:layout_toRightOf="@+id/text_deadline"
+                android:text="2021/05/25"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                card_view:layout_constraintLeft_toRightOf="@id/text_deadline"
+                card_view:layout_constraintTop_toBottomOf="@id/text_price" />
 
-                <TextView
-                    android:id="@+id/item_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/item_deadline"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:layout_toRightOf="@+id/item_image"
-                    android:maxLines="2"
-                    android:ellipsize="end"/>
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@+id/item_deadline"
+                android:layout_marginLeft="5dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingRight="30dp"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginEnd="40dp"
+                card_view:layout_constraintLeft_toRightOf="@id/item_image"
+                card_view:layout_constraintTop_toBottomOf="@id/text_deadline"
+                android:layout_marginRight="40dp" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
