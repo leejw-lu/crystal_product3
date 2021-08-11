@@ -1,12 +1,16 @@
 package com.example.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Frag5 extends Fragment {
@@ -31,15 +41,14 @@ public class Frag5 extends Fragment {
     String uid;
 
     private View view;
-    private Button btn_logout;
-
+    private Button btn_verifyEmail,btn_logout,btn_reNickname,btn_rePassword;
     private FirebaseAuth mAuth;
-   // private FirebaseStorage storage;
-   // private FirebaseDatabase database;
+
+    String name;    //firebase에서 닉네임정보 받아온다.
 
     //database 이메일 가져오기
     DatabaseReference mDatabase;
-    TextView email_info,nickname_info;
+    TextView textVerify,email_info,nickname_info;
 
     //양성원
     private RecyclerView recyclerView;
@@ -112,7 +121,7 @@ public class Frag5 extends Fragment {
         nickname.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.getValue(String.class);
+                name = snapshot.getValue(String.class);
                 nickname_info.setText(name);
             }
             @Override
@@ -132,6 +141,28 @@ public class Frag5 extends Fragment {
 
         });
 
+//        //이메일인증 버튼
+//        btn_verifyEmail=view.findViewById(R.id.btn_verifyEmail);
+//        btn_verifyEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//
+//                            Toast.makeText(getContext(),"인증메일을 전송했습니다.",Toast.LENGTH_SHORT).show();
+//
+//                                }
+//
+//                            }
+//
+//                        });
+//            }
+//        });
+
+
         //로그아웃 버튼
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,8 +176,31 @@ public class Frag5 extends Fragment {
             }
         });
 
+//        //닉네임변경 버튼
+//        btn_reNickname=view.findViewById(R.id.btn_reNickname);
+//        btn_reNickname.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                //AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailPage.this).create();
+//                System.out.println("-------------------ㅎㅎㅎㅎ");
+//                System.out.println("닉네임버튼 클릭했다");
+//
+//            }
+//        });
 
-        getHeart();
+        //비밀번호 재설정 창으로 이동.
+        btn_rePassword=view.findViewById(R.id.btn_rePassword);
+        btn_rePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),PasswordResetActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        getHeart(); //관심상품목록 가져오기
 
         return view;
     }

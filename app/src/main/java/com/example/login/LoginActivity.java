@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 //2
@@ -22,8 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth nFirebaseAuth;     //firebase인증
     private DatabaseReference nDataBaseRef; //실시간데이터베이스
-    private EditText nEtEmail,nEtPwd;       //회원가입 입력필드
-
+    private EditText nEtEmail,nEtPwd;        //회원가입 입력필드
 
 
     @Override
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btn_login=findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 //로그인 요청
@@ -76,6 +78,29 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //비밀번호 찾기 화면으로 이동.
+        TextView findPassword=findViewById(R.id.findPassword);
+        findPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LoginActivity.this, PasswordResetActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        //이메일 인증을 확인했는지 검증하는 함수
+//        public boolean isEmailVerified(){
+//            FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+//            if(user!=null){
+//                AccessToken accessToken =AccessToken.getcurrenToken();
+//                boolean isLo
+//
+//
+//
+//            }
+//
+//        }
 
     }
 }

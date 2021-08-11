@@ -42,7 +42,7 @@
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="5dp">
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -78,19 +78,48 @@
                         android:textStyle="bold"
                         tools:layout_editor_absoluteX="3dp" />
 
+<!--                    <TextView-->
+<!--                        android:id="@+id/textVerify"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="인증미완료"-->
+<!--                        android:textColor="#EC2A2A"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:layout_marginLeft="20dp"/>-->
+
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/email_address"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="33dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="13dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/email_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="33dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="13dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+<!--                    <Button-->
+<!--                        android:id="@+id/btn_verifyEmail"-->
+<!--                        android:layout_width="66dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="인증"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="10dp"-->
+<!--                        app:backgroundTint="#E1E0FF"-->
+<!--                        android:layout_marginLeft="30dp"/>-->
+
+                </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -168,6 +197,17 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btn_reNickname"
+                    android:layout_width="240dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="닉네임변경"
+                    android:textColor="@color/black"
+                    app:backgroundTint="#E1E0FF" />
+
 
                 <Button
                     android:id="@+id/btn_logout"
@@ -177,6 +217,17 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="5dp"
                     android:text="로그아웃"
+                    android:textColor="@color/black"
+                    app:backgroundTint="#E1E0FF" />
+
+                <Button
+                    android:id="@+id/btn_rePassword"
+                    android:layout_width="240dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="비밀번호 재설정"
                     android:textColor="@color/black"
                     app:backgroundTint="#E1E0FF" />
             </LinearLayout>

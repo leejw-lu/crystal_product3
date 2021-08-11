@@ -94,8 +94,6 @@ public class ProductDetailPage extends AppCompatActivity {
         postuid = intent.getStringExtra("postuid");
         postToken = intent.getStringExtra("postToken");
         imageName = intent.getStringExtra("imageName");
-        System.out.println("이ㅣㅣ이이이미지 잉르므ㅡㄴ을믕ㄴㄹ ");
-        System.out.println(imageName);
 
         Glide.with(ProductDetailPage.this).load(image_url).into(imageView_image);
 
@@ -110,7 +108,7 @@ public class ProductDetailPage extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(this, commentList, postid);
+        commentAdapter = new CommentAdapter(this, commentList, postid,postuid); //postuid도 추가.
         recyclerView.setAdapter(commentAdapter);
 
         addcomment = findViewById(R.id.add_comment);

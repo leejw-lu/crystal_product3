@@ -1,8 +1,10 @@
 package com.example.login;
 
 import android.app.AlertDialog;
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,15 +33,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     private Context mContext;
     private List<CommentsDTO> mComments;
     private String postid;
+    private String postuid; //댓글에 글쓴이 표시
 
     FirebaseUser firebaseUser;
     DatabaseReference mDatabase;
 
     //생성자
-    public CommentAdapter(Context mContext, List<CommentsDTO> mComments,String postid) {
+    public CommentAdapter(Context mContext, List<CommentsDTO> mComments,String postid,String postuid) {
         this.mContext = mContext;
         this.mComments = mComments;
         this.postid=postid;
+        this.postuid=postuid;
     }
 
     @NonNull
@@ -65,7 +69,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         //리사이클러뷰에서 댓글보이기setText하기. -> 댓글쓴 사람의 닉네임이랑 댓글내용이 보여진다.
         holder.comment.setText(comment.getComment());
-        getUserInfo(holder.username,comment.getPublisher());
+        getUserInfo(holder.username,comment.getPublisher(),postuid, holder.writer);
 
         //댓글 삭제하기 -> 사용자가 해당댓글 longclick하면 알림창뜨게.
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -114,18 +118,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView username, comment;
+        public TextView username, comment , writer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
             comment = itemView.findViewById(R.id.comment);
+            writer= itemView.findViewById(R.id.writer);     //댓글에 글쓴이 표시
         }
     }
 
     //댓글단 유저정보 가져오기
-    private void getUserInfo(TextView username,String publisherid) {
+    private void getUserInfo(TextView username,String publisherid,String postuid,TextView writer) {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("login"); // 파이어베이스 realtime database 에서 정보 가져오기
         DatabaseReference nickname = mDatabase.child("UserAccount").child(publisherid).child("nickname");
@@ -136,8 +141,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.getValue(String.class);
                 username.setText(name);
-            }
 
+                if(postuid.equals(publisherid)) {    //댓글쓴 사람이 글쓴이이면 글쓴이 표시해주기.
+                        writer.setVisibility(View.VISIBLE);
+                }
+
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

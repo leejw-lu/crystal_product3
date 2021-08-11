@@ -1,12 +1,10 @@
 package com.example.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,20 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-//2
-public class PasswordResetActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String TAG = "PasswordResetActivity";
+import org.jetbrains.annotations.NotNull;
 
-    //define view objects
-    private EditText editTextUserEmail;
-    private Button buttonFind;
-    private TextView textviewMessage;
-    private ProgressDialog progressDialog;
-    //define firebase object
-    private FirebaseAuth firebaseAuth;
+public class PasswordResetActivity extends AppCompatActivity {
 
+    //변수선언
+    EditText editTextUserEmail;
+    Button buttonFind;
 
 
     @Override
@@ -35,37 +30,51 @@ public class PasswordResetActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_reset);
 
-        editTextUserEmail = (EditText) findViewById(R.id.editTextUserEmail);
-        buttonFind = (Button) findViewById(R.id.buttonFind);
-        progressDialog = new ProgressDialog(this);
-        firebaseAuth = FirebaseAuth.getInstance();
+        editTextUserEmail=findViewById(R.id.editTextUserEmail);
 
-        buttonFind.setOnClickListener(this);
+        buttonFind=findViewById(R.id.buttonFind);
 
-    }
+        buttonFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailadress=editTextUserEmail.getText().toString();
 
-    @Override
-    public void onClick(View view) {
-        if(view == buttonFind){
-            progressDialog.setMessage("처리중입니다. 잠시 기다려 주세요...");
-            progressDialog.show();
-            //비밀번호 재설정 이메일 보내기
-            String emailAddress = editTextUserEmail.getText().toString().trim();
-            firebaseAuth.sendPasswordResetEmail(emailAddress)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                if(emailadress.equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){     //가입한 이메일이 맞는지 확인.
+
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(emailadress).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(PasswordResetActivity.this, "이메일을 보냈습니다.", Toast.LENGTH_LONG).show();
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                                Toast.makeText(PasswordResetActivity.this, "비밀번호 변경 메일을 전송했습니다.", Toast.LENGTH_SHORT).show();
+
                             } else {
-                                Toast.makeText(PasswordResetActivity.this, "메일 보내기 실패!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PasswordResetActivity.this, "비밀번호 변경에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             }
-                            progressDialog.dismiss();
+
                         }
                     });
+                }
+                //가입한 이메일 정보와 EdiText의 이메일주소가 다르면.
+                else{
+                    Toast.makeText(PasswordResetActivity.this, "가입한 이메일 주소가 아닙니다.", Toast.LENGTH_SHORT).show();
+                }
 
-        }
-    }
+            }
+        });
+
+        //비밀번호재설정 후, login버튼
+        Button login_go2=findViewById(R.id.login_go2);
+        login_go2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //로그인 화면으로 이동.
+                Intent intent=new Intent(PasswordResetActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }   //Oncreate함수
+
 }
