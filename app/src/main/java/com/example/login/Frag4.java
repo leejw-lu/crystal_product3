@@ -58,7 +58,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private Context context;
 
     private Button btnOk;
-    private Button btnUpload;
+    private TextView btnUpload;
     private ImageView ivProfile;
     private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
@@ -83,7 +83,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
         context = container.getContext();
-        btnUpload = (Button) view.findViewById(R.id.btn_upload);
+        btnUpload = (TextView) view.findViewById(R.id.btn_upload);
 
         btnOk = (Button) view.findViewById(R.id.btn_profile_Ok);       //사진과 글_ 업로드 버튼
         ivProfile = (ImageView) view.findViewById(R.id.iv_profile);          //사진이미지
@@ -149,7 +149,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
 
         //date.setText(null);
 
-        //해당하는 edittext
         etDesc.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -164,8 +163,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                 return false;
             }
         });
-
-
 
 
         return view;

@@ -47,15 +47,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/image_upload_icon" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_upload"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:text="이미지 첨부"
                 android:textSize="20dp"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/uploadIcon" />
@@ -155,7 +155,7 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/purchaseLink" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_profile_Ok"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -163,14 +163,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/round_corner"
+                android:background="@drawable/button_custom"
                 android:text="업로드"
+                android:textColor="@color/white"
                 android:textSize="17dp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/mainPurple"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description" />
+                app:layout_constraintTop_toBottomOf="@id/description"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
