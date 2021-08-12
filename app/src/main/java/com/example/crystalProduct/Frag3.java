@@ -176,16 +176,18 @@ public class Frag3 extends Fragment {
                     for (String postid : postList) {
                         if (imageDTO.getPostid().equals(postid)) {
                             //그냥 deadline 스트링 하나만
-                            deadline2=imageDTO.getDeadline();   //날짜 받아오기
+                            deadline2 = imageDTO.getDeadline();   //날짜 받아오기
+                            if (deadline2 != null) {
                                 String dateArray[] = deadline2.split("/");
                                 getYear(dateArray[0]);
                                 getMonth(dateArray[1]);
                                 getDay(dateArray[2]);
-                                materialCalendarView.addDecorators(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.from(getYear(dateArray[0]),getMonth(dateArray[1]),getMonth(dateArray[2])+1))));
+                                materialCalendarView.addDecorators(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.from(getYear(dateArray[0]), getMonth(dateArray[1]), getMonth(dateArray[2]) + 1))));
                             }
                         }
                     }
                 }
+            }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {

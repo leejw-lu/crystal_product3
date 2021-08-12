@@ -14,11 +14,22 @@
         android:layout_weight="1"
         app:mcv_selectionColor="#D1B2FF"
         app:mcv_showOtherDates="all"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#7775AA" />
+
     <TextView
         android:id="@+id/text_calendar"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="아무말"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_calendar"
         android:layout_width="match_parent"
