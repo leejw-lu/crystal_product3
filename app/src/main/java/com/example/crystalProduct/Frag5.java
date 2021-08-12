@@ -138,28 +138,6 @@ public class Frag5 extends Fragment {
 
         });
 
-//        //이메일인증 버튼
-//        btn_verifyEmail=view.findViewById(R.id.btn_verifyEmail);
-//        btn_verifyEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            Toast.makeText(getContext(),"인증메일을 전송했습니다.",Toast.LENGTH_SHORT).show();
-//
-//                                }
-//
-//                            }
-//
-//                        });
-//            }
-//        });
-
-
         //로그아웃 버튼
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override

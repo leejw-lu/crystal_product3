@@ -16,14 +16,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 //2
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth nFirebaseAuth;     //firebase인증
-    private DatabaseReference nDataBaseRef; //실시간데이터베이스
-    private EditText nEtEmail,nEtPwd;        //회원가입 입력필드
+    private FirebaseAuth FirebaseAuth;     //firebase인증
+    private DatabaseReference DataBaseRef; //실시간데이터베이스
+    private EditText EtEmail,EtPwd;        //회원가입 입력필드
 
 
     @Override
@@ -31,11 +32,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        nFirebaseAuth=FirebaseAuth.getInstance();
-        nDataBaseRef= FirebaseDatabase.getInstance().getReference("login");
+        FirebaseAuth=FirebaseAuth.getInstance();
+        DataBaseRef= FirebaseDatabase.getInstance().getReference("login");
 
-        nEtEmail=findViewById(R.id.et_email);
-        nEtPwd=findViewById(R.id.et_pwd);
+        EtEmail=findViewById(R.id.et_email);
+        EtPwd=findViewById(R.id.et_pwd);
 
         Button btn_login=findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -43,21 +44,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //로그인 요청
-                String strEmail=nEtEmail.getText().toString();
-                String strPwd=nEtPwd.getText().toString();
+                String strEmail=EtEmail.getText().toString();
+                String strPwd=EtPwd.getText().toString();
 
                 if(TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd)){
                     Toast.makeText(LoginActivity.this,"모두 입력하십시오.",Toast.LENGTH_SHORT).show();
                 } else {
-                    nFirebaseAuth.signInWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    FirebaseAuth.signInWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                //로그인 성공!!
-                                Intent intent= new Intent(LoginActivity.this, com.example.crystalProduct.MainActivity.class);
-                                startActivity(intent);
-                                finish(); //현재 액티비티 파괴
-                            } else{
+
+                                if(FirebaseAuth.getCurrentUser().isEmailVerified()==true){     //이메일 인증 성공해야 로그인성공.
+                                    Intent intent= new Intent(LoginActivity.this, com.example.crystalProduct.MainActivity.class);
+                                    startActivity(intent);
+                                    finish();   //현재 액티비티 파괴
+                                }
+                                else{ //이메일 인증안했을 시,
+                                    Toast.makeText(LoginActivity.this, "이메일 인증 후 로그인이 가능합니다.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            else{
                                 Toast.makeText(LoginActivity.this,"계정 또는 비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
 
                             }
@@ -88,18 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        //이메일 인증을 확인했는지 검증하는 함수
-//        public boolean isEmailVerified(){
-//            FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
-//            if(user!=null){
-//                AccessToken accessToken =AccessToken.getcurrenToken();
-//                boolean isLo
-//
-//
-//
-//            }
-//
-//        }
-
     }
+
 }
