@@ -15,7 +15,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,6 +54,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'com.firebase:firebase-client-android:2.5.0'
-    implementation "com.prolificinteractive:material-calendarview:1.4.3" //양성원 추가 캘린더!!!!!!!!!!
-    implementation 'de.hdodenhof:circleimageview:3.1.0' //이지현 추가 동그란 이미지~~~
+    implementation "com.prolificinteractive:material-calendarview:1.4.3"
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // Firebase SDK
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.android.support:multidex:1.0.3'
 }

@@ -12,7 +12,6 @@
         android:id="@+id/toolbar"
         />
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavi"
         android:layout_width="match_parent"

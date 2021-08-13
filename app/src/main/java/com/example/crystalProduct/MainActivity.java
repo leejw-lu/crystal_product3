@@ -1,20 +1,39 @@
 package com.example.crystalProduct;
 
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,12 +52,66 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     private ActionBar actionBar;
+    /*
+    //팝업 알림 버튼 (임시)
+    Button button;
+    NotificationManager manager;
+    NotificationCompat.Builder builder;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANNEL_NAME = "Channel1";
+
+    //팝업 타이머
+    CountDownTimer countDownTimer;
+    TextView tv_timer;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
+
+        /*
+        FirebaseApp.initializeApp(this);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("FirebaseSettingEx", "getInstanceId failed", task.getException());
+                return;
+            }
+
+            // 토큰을 읽고, 텍스트 뷰에 보여주기
+            String token = task.getResult().getToken();
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            System.out.println(token);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        });*/
+        /*
+        //팝업 알림 버튼 (임시)
+        button = (Button) findViewById(R.id.btn_notification);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNoti();
+            }
+        });
+
+
+        tv_timer = (TextView) findViewById(R.id.tv_timer);
+        //마감기한 타이머   (제한시간(200초동안 작동), 몇초마다 타이머 작동(1초 단위로 작동))
+        CountDownTimer countDownTimer = new CountDownTimer(200000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tv_timer.setText(getTime());
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        countDownTimer.start();
+        */
 
         //툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -118,5 +191,95 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "뒤로가기 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+    /*
+    //팝업 알림 버튼 (임시)
+    public void showNoti(){
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        //버전 오레오 이상일 경우
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            manager.createNotificationChannel(
+                    new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this,CHANNEL_ID);
+
+            //하위 버전일 경우
+        } else{
+            builder = new NotificationCompat.Builder(this);
+        }
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //알림창 제목
+        builder.setContentTitle("수정물산");
+
+        //알림창 메시지
+        builder.setContentText("관심 상품의 마감기한이 내일까지예요!");
+
+        //알림창 아이콘
+        builder.setSmallIcon(R.drawable.crystal_logo);
+
+        //알림창 터치시 상단 알림상태창에서 알림이 자동으로 삭제
+        builder.setAutoCancel(true);
+
+        //pendingIntent를 builder에 설정
+        //알림창 터치시 인텐트가 전달
+        builder.setContentIntent(pendingIntent);
+        Notification notification = builder.build();
+
+        //알림창 실행
+        manager.notify(1,notification);
+
+    }
+    */
+
+
+    /*
+    //마감 기한 타이머
+    private String getTime(){
+
+        //현재 코드는 언제나 작동할 수 있도록 현재날짜+2일을 한 상태입니다. 그러니 말일쯤에는 작동하지 않을 수 있으니 주의하시기 바랍니다
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int c_min = calendar.get(Calendar.MINUTE);
+        int c_sec = calendar.get(Calendar.SECOND);
+
+        Calendar baseCal = new GregorianCalendar(year,month+1,day,c_hour,c_min,c_sec);
+        Calendar targetCal = new GregorianCalendar(year,month+1,day+1,0,0,0);  //비교대상날짜
+
+        long diffSec = (targetCal.getTimeInMillis() - baseCal.getTimeInMillis()) / 1000;
+        long diffDays = diffSec / (24*60*60);
+
+        targetCal.add(Calendar.DAY_OF_MONTH, (int)(-diffDays));
+
+        int hourTime = (int)Math.floor((double)(diffSec/3600));
+        int minTime = (int)Math.floor((double)(((diffSec - (3600 * hourTime)) / 60)));
+        int secTime = (int)Math.floor((double)(((diffSec - (3600 * hourTime)) - (60 * minTime))));
+
+        String hour = String.format("%02d", hourTime);
+        String min = String.format("%02d", minTime);
+        String sec = String.format("%02d", secTime);
+
+        System.out.println(year+"년"+(month+1)+"월"+ (day+1)+"일 까지 " + hour + " 시간 " +min + " 분 "+ sec + "초 남았습니다.");
+
+
+        if (Integer.parseInt(hour) < 24){
+            showNoti();
+        }
+
+
+        return year+"년"+(month+1)+"월"+ (day+1)+"일 까지 " + hour + " 시간 " +min + " 분 "+ sec + "초 남았습니다.";
+
+    }
+    */
 
 }

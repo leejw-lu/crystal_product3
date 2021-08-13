@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ValueEventListener checkRegister = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-            
+
             if (snapshot.getChildren() != null){
                 if (NickName.getText().toString().length() > 7){
                     Toast.makeText(getApplicationContext(), "닉네임은 7자리까지 가능합니다.", Toast.LENGTH_LONG).show();
