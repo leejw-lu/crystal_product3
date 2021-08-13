@@ -63,7 +63,7 @@ public class Frag3 extends Fragment {
 
 
         //달력
-        SimpleDateFormat format = new SimpleDateFormat("yyyy / M /d");   //오늘날짜 받아오기.
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/M/d");   //오늘날짜 받아오기.
         String date = format.format(Calendar.getInstance().getTime());
 
         //커스텀 달력

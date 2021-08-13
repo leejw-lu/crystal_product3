@@ -23,12 +23,29 @@
         android:layout_marginRight="20dp"
         android:background="#7775AA" />
 
-    <TextView
-        android:id="@+id/text_calendar"
-        android:layout_width="300dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="25dp"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:text="관심상품의 마감일을 놓치지 마세요!"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_calendar"
