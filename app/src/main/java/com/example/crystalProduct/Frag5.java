@@ -29,29 +29,22 @@ import java.util.List;
 
 public class Frag5 extends Fragment {
 
-    String uid;
-
     private View view;
-    private Button btn_verifyEmail,btn_logout,btn_reNickname,btn_rePassword;
-    private FirebaseAuth mAuth;
-
-    String name;    //firebase에서 닉네임정보 받아온다.
+    private Button btn_logout,btn_reNickname,btn_rePassword;
 
     //database 이메일 가져오기
-    DatabaseReference mDatabase;
-    TextView textVerify,email_info,nickname_info;
+    private DatabaseReference mDatabase;
+    private TextView email_info,nickname_info;
 
-    //양성원
+    private TextView emptyLiked;
+
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter uploadedImageAdapter;
     private List<ImageDTO> imageDTOList = new ArrayList<>();
     private List<String> postList = new ArrayList<>();
     private List<String> uidList = new ArrayList<>();
     private FirebaseUser firebaseUser;
-    private ImageDTO imageDTO;
-
-    //이지현
-    private TextView emptyLiked;
+    private FirebaseAuth mAuth;
 
 
     @Nullable
@@ -118,7 +111,7 @@ public class Frag5 extends Fragment {
         nickname.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name = snapshot.getValue(String.class);
+                String name = snapshot.getValue(String.class);
                 nickname_info.setText(name);
             }
             @Override
@@ -151,18 +144,16 @@ public class Frag5 extends Fragment {
             }
         });
 
-//        //닉네임변경 버튼
-//        btn_reNickname=view.findViewById(R.id.btn_reNickname);
-//        btn_reNickname.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailPage.this).create();
-//                System.out.println("-------------------ㅎㅎㅎㅎ");
-//                System.out.println("닉네임버튼 클릭했다");
-//
-//            }
-//        });
+        //닉네임변경 버튼
+        btn_reNickname=view.findViewById(R.id.btn_reNickname);
+        btn_reNickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getActivity(),NicknameResetActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         //비밀번호 재설정 창으로 이동.
         btn_rePassword=view.findViewById(R.id.btn_rePassword);

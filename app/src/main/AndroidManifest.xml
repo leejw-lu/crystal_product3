@@ -35,6 +35,7 @@
         <activity android:name="com.example.crystalProduct.ProductDetailPage"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name="com.example.crystalProduct.PasswordResetActivity"/>
+        <activity android:name="com.example.crystalProduct.NicknameResetActivity"/>
         <activity android:name="com.example.crystalProduct.RegisterActivity" />
         <activity android:name="com.example.crystalProduct.MainActivity"
             android:windowSoftInputMode="adjustResize">

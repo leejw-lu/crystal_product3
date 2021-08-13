@@ -14,14 +14,14 @@
         android:id="@+id/et_email"
         android:layout_width="344dp"
         android:layout_height="46dp"
-        android:layout_marginTop="205dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="이메일주소"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
         android:id="@+id/et_pwd"
@@ -29,11 +29,11 @@
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="비밀번호 입력(6자리이상)"
+        android:hint="비밀번호 입력(6자리 이상)"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/et_nickname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_email"
         app:layout_constraintVertical_bias="0.0" />
@@ -44,7 +44,7 @@
         android:layout_height="46dp"
         android:layout_marginTop="76dp"
         android:ems="10"
-        android:hint="닉네임 입력"
+        android:hint="닉네임 입력(최대 7자리)"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
@@ -60,10 +60,10 @@
         app:backgroundTint="#C3CAEC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.577" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nickname"
+        app:layout_constraintVertical_bias="0.088" />
 
     <TextView
         android:id="@+id/textView2"
@@ -82,16 +82,38 @@
 
     <Button
         android:id="@+id/login_go"
-        android:layout_width="93dp"
-        android:layout_height="41dp"
+        android:layout_width="342dp"
+        android:layout_height="42dp"
         android:text="로그인"
         android:textColor="@color/black"
         app:backgroundTint="#C3CAEC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_register"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintVertical_bias="0.08" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="가입후 인증메일이 발송되니"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="이메일 인증 후 로그인 바랍니다."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,9 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
     private ValueEventListener checkRegister = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-            FirebaseUser firebaseUser=FirebaseAuth.getCurrentUser();
-
+            
             if (snapshot.getChildren() != null){
+                if (NickName.getText().toString().length() > 7){
+                    Toast.makeText(getApplicationContext(), "닉네임은 7자리까지 가능합니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Iterator<DataSnapshot> child = snapshot.getChildren().iterator();  //userAccount의 모든 자식들의 key값과 value 값들을 iterator
                 long idSize = snapshot.getChildrenCount();    //userAccount에 있는 id 개수
                 for (long i = 0; i < idSize ; i++) {
@@ -61,8 +66,11 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser=FirebaseAuth.getCurrentUser();    //오류나서 이거 여기로 추가함
                         UserAccount account=new UserAccount();
-                        account.setIdToken(firebaseUser.getUid());
+                        String uid=firebaseUser.getUid();
+                        //account.setIdToken(firebaseUser.getUid());
+                        account.setIdToken(uid);
                         account.setEmailId(firebaseUser.getEmail());
                         account.setPassword(strPwd);
                         account.setNickname(strName);
@@ -71,6 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
                         DataBaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 
                         Toast.makeText(RegisterActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
+                        //회원가입 완료후, edit_text 초기화하기
+                        EtEmail.setText("");
+                        EtPwd.setText("");
+                        NickName.setText("");
+
                         sendVerificationEmail();    //이메일 인증 보내기 함수
 
                     } else {
@@ -149,4 +162,5 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
 }
