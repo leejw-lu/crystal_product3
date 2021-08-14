@@ -123,8 +123,8 @@ public class Frag2 extends Fragment implements TextWatcher {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);
                         String uidKey=snapshot.getKey();
-                        imageDTOList.add(imageDTO); //imageDTOList.add(0, imageDTO);
-                        uidList.add(uidKey);
+                        imageDTOList.add(0,imageDTO); //imageDTOList.add(0, imageDTO);
+                        uidList.add(0,uidKey);
                     }
                     uploadedImageAdapter.notifyDataSetChanged();
                 }

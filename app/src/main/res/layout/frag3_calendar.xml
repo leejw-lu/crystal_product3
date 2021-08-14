@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:mcv_selectionColor="#D1B2FF"
+        app:mcv_selectionColor="@color/editTextLine"
         app:mcv_showOtherDates="all"/>
 
     <View

@@ -145,6 +145,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/round_corner"
+                android:backgroundTint="#BEC2EF"
                 android:gravity="top"
                 android:hint="상품설명"
                 android:inputType="textMultiLine"
@@ -152,7 +153,6 @@
                 android:scrollbars="vertical"
                 android:textColorHint="#4F4C95"
                 android:textSize="18dp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/purchaseLink" />
 
             <androidx.appcompat.widget.AppCompatButton

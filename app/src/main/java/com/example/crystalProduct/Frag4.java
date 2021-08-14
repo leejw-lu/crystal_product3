@@ -58,7 +58,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
 
     private Button btnOk;
     private TextView btnUpload;
-    private ImageView ivProfile;
+    private ImageView ivProfile, uploadIcon;
     private EditText etTitle, etDesc, etPrice, etDeadLine, etPurchaseLink;
     private String imageUrl="";
 
@@ -84,6 +84,7 @@ public class Frag4 extends Fragment implements IOnBackPressed {
         database = FirebaseDatabase.getInstance();
         context = container.getContext();
         btnUpload = (TextView) view.findViewById(R.id.btn_upload);
+        uploadIcon = (ImageView) view.findViewById(R.id.uploadIcon);
 
         btnOk = (Button) view.findViewById(R.id.btn_profile_Ok);       //사진과 글_ 업로드 버튼
         ivProfile = (ImageView) view.findViewById(R.id.iv_profile);          //사진이미지
@@ -113,6 +114,10 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent,GALLERY_CODE);
+
+                //// 사진 첨부되면 사진 업로드 아이콘 및 텍스트 숨기기
+                btnUpload.setVisibility(View.GONE);
+                uploadIcon.setVisibility(View.GONE);
             }
         });
 

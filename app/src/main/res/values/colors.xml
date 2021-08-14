@@ -12,4 +12,5 @@
     <color name="blueColor">#608ec6</color>
     <color name="skyblueColor">#70c9f3</color>
     <color name="blueButtonColor">#90BEF6</color>
+    <color name="editTextLine">#9EA4E4</color>
 </resources>

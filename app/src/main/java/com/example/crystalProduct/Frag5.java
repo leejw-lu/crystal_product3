@@ -1,5 +1,7 @@
 package com.example.crystalProduct;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +38,7 @@ public class Frag5 extends Fragment {
 
     private View view;
     private Button btn_logout,btn_reNickname,btn_rePassword;
+    private Button btn_secession;
 
     //database 이메일 가져오기
     private DatabaseReference mDatabase;
@@ -169,14 +177,42 @@ public class Frag5 extends Fragment {
         getHeart(); //관심상품목록 가져오기
 
 
-        /////이지현추가
-
+        ////// 하트 아이콘이 png 파일이라 코드로 색깔 변경 ////////////////
         ImageView heartIcon = (ImageView) view.findViewById(R.id.SecondIcon);
         int color = ContextCompat.getColor(getActivity(), R.color.mainPurple);
         heartIcon.setColorFilter(color);
 
+        /////이지현추가 - 관심상품 없을 때 안내 텍스트 표시 ///////////
         if(postList.size()==0)
             emptyLiked.setVisibility(View.VISIBLE);
+
+        ////////////////////////탈퇴버튼////////////////////////////
+
+        btn_secession = view.findViewById(R.id.btn_secession);
+        btn_secession.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("정말로 탈퇴하겠습니까?");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteID();
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
+            }
+        });
+
 
 
         return view;
@@ -236,6 +272,27 @@ public class Frag5 extends Fragment {
             }
         });
     }
+
+    // 계정삭제 함수
+
+   public void deleteID (){
+        firebaseUser.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(), "탈퇴 성공", Toast.LENGTH_SHORT).show();
+                            FirebaseDatabase.getInstance().getReference("login").child("UserAccount").child(firebaseUser.getUid()).removeValue();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                        }
+                        else {
+                            Toast.makeText(getActivity(), "탈퇴 실패", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+
 }
 
 

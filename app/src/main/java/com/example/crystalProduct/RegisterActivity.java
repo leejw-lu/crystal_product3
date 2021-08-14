@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference DataBaseRef; //실시간데이터베이스
     private EditText EtEmail,EtPwd,NickName;       //회원가입 입력필드
     private Button nBtnRegister;            //회원가입 버튼
+    private TextView registerText2;
 
     //회원가입 처리 시작
     private String strEmail;
@@ -110,6 +111,21 @@ public class RegisterActivity extends AppCompatActivity {
         EtEmail=findViewById(R.id.et_email);
         EtPwd=findViewById(R.id.et_pwd);
         NickName=findViewById(R.id.et_nickname);
+
+        EtEmail.bringToFront();
+        EtPwd.bringToFront();
+        NickName.bringToFront();
+
+        //registerText1 = findViewById(R.id.registerText1);
+        registerText2 = findViewById(R.id.registerText2);
+
+        //registerText1.bringToFront();
+        registerText2.bringToFront();
+
+
+
+
+
 
         nBtnRegister=findViewById(R.id.btn_register);
         nBtnRegister.setOnClickListener(new View.OnClickListener() {

@@ -94,4 +94,5 @@ public class NicknameResetActivity extends AppCompatActivity {
         });
 
     }
+
 }

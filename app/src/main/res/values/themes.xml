@@ -24,4 +24,9 @@
         <item name="android:windowBackground">@drawable/splash_image</item>
     </style>
 
+    <style name="editText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/editTextLine</item>
+        <item name="colorControlNormal">@color/mainPurple</item>
+    </style>
+
 </resources>
