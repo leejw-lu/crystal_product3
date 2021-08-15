@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crystalProduct.DTO.ImageDTO;
+import com.example.crystalProduct.LoginActivity;
+import com.example.crystalProduct.Adapter.MyRecyclerViewAdapter;
+import com.example.crystalProduct.NicknameResetActivity;
+import com.example.crystalProduct.PasswordResetActivity;
+import com.example.crystalProduct.ProductDetailPage;
+import com.example.crystalProduct.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -154,7 +161,7 @@ public class Frag5 extends Fragment {
         btn_reNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(getActivity(),NicknameResetActivity.class);
+                Intent intent =new Intent(getActivity(), NicknameResetActivity.class);
                 startActivity(intent);
 
             }
@@ -165,7 +172,7 @@ public class Frag5 extends Fragment {
         btn_rePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),PasswordResetActivity.class);
+                Intent intent=new Intent(getActivity(), PasswordResetActivity.class);
                 startActivity(intent);
             }
         });

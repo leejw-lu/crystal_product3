@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.crystalProduct.DTO.ImageDTO;
+import com.example.crystalProduct.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

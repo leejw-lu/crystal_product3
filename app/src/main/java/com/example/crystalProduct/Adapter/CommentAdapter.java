@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crystalProduct.DTO.CommentsDTO;
+import com.example.crystalProduct.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

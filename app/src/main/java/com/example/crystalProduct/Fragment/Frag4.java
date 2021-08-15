@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -27,6 +27,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.loader.content.CursorLoader;
 
+import com.example.crystalProduct.IOnBackPressed;
+import com.example.crystalProduct.DTO.ImageDTO;
+import com.example.crystalProduct.MainActivity;
+import com.example.crystalProduct.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

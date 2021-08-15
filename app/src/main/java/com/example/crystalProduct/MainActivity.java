@@ -11,6 +11,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.crystalProduct.Fragment.Frag1;
+import com.example.crystalProduct.Fragment.Frag2;
+import com.example.crystalProduct.Fragment.Frag3;
+import com.example.crystalProduct.Fragment.Frag4;
+import com.example.crystalProduct.Fragment.Frag5;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;

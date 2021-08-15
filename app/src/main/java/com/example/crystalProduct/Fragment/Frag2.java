@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crystalProduct.DTO.ImageDTO;
+import com.example.crystalProduct.Adapter.MyRecyclerViewAdapter;
+import com.example.crystalProduct.ProductDetailPage;
+import com.example.crystalProduct.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

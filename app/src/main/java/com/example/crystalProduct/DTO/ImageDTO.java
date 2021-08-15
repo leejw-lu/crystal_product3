@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.DTO;
 
 public class  ImageDTO {
     public String imageUrl;

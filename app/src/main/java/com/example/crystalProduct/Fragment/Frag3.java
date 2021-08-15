@@ -1,4 +1,4 @@
-package com.example.crystalProduct;
+package com.example.crystalProduct.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crystalProduct.Adapter.CalendarAdapter;
+import com.example.crystalProduct.Decorator.EventDecorator;
+import com.example.crystalProduct.DTO.ImageDTO;
+import com.example.crystalProduct.R;
+import com.example.crystalProduct.Decorator.SaturdayDecorator;
+import com.example.crystalProduct.Decorator.SundayDecorator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
