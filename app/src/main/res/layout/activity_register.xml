@@ -42,9 +42,7 @@
         app:layout_constraintBottom_toTopOf="@id/registerView1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         />
-
 
     <EditText
         android:id="@+id/et_email"
@@ -111,18 +109,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_register" />
-
-    <!--
-    <TextView
-        android:id="@+id/registerText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="가입 후 이메일 주소로 인증 메일이 발송됩니다."
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/registerText2" /> -->
 
     <TextView
         android:id="@+id/registerText2"

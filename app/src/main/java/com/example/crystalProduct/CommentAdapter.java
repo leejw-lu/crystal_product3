@@ -36,7 +36,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     FirebaseUser firebaseUser;
     DatabaseReference mDatabase;
 
-    //생성자
     public CommentAdapter(Context mContext, List<CommentsDTO> mComments,String postid,String postuid) {
         this.mContext = mContext;
         this.mComments = mComments;
@@ -48,11 +47,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-
-        /*
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.uploaded_image_item,parent,false);
-         */
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item, parent, false);
         return new CommentAdapter.ViewHolder(view);

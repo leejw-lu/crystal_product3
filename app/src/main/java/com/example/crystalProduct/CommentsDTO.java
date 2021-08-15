@@ -6,7 +6,6 @@ public class CommentsDTO {
     private String publisher;   //사용자uid
     private String commentid;   //댓글마다 고유id 저장.
 
-    //생성자
     public CommentsDTO() { }
 
     public CommentsDTO(String comment, String publisher) {
@@ -14,7 +13,6 @@ public class CommentsDTO {
         this.publisher = publisher;
     }
 
-    //getter, setter
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
     public String getPublisher() { return publisher; }
