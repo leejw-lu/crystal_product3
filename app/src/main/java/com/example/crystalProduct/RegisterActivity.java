@@ -67,10 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        FirebaseUser firebaseUser=FirebaseAuth.getCurrentUser();    //오류나서 이거 여기로 추가함
+                        FirebaseUser firebaseUser=FirebaseAuth.getCurrentUser();
                         UserAccount account=new UserAccount();
                         String uid=firebaseUser.getUid();
-                        //account.setIdToken(firebaseUser.getUid());
                         account.setIdToken(uid);
                         account.setEmailId(firebaseUser.getEmail());
                         account.setPassword(strPwd);
@@ -116,34 +115,27 @@ public class RegisterActivity extends AppCompatActivity {
         EtPwd.bringToFront();
         NickName.bringToFront();
 
-        //registerText1 = findViewById(R.id.registerText1);
         registerText2 = findViewById(R.id.registerText2);
 
-        //registerText1.bringToFront();
         registerText2.bringToFront();
-
-
-
-
-
 
         nBtnRegister=findViewById(R.id.btn_register);
         nBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                strEmail=EtEmail.getText().toString();
-                strPwd=EtPwd.getText().toString();
-                strName=NickName.getText().toString();
+                strEmail = EtEmail.getText().toString();
+                strPwd = EtPwd.getText().toString();
+                strName = NickName.getText().toString();
 
-                //
-                if(TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd) || TextUtils.isEmpty(strName)) {
-                    Toast.makeText(RegisterActivity.this,"모두 입력하십시오.",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd) || TextUtils.isEmpty(strName)) {
+                    Toast.makeText(RegisterActivity.this, "모두 입력하십시오.", Toast.LENGTH_SHORT).show();
+                } else if (!strEmail.contains("sungshin.ac.kr")){
+                    Toast.makeText(RegisterActivity.this, "성신여자대학교 이메일로 가입하세요.",Toast.LENGTH_SHORT).show();
                 } else if (strPwd.length() <6){
                     Toast.makeText(RegisterActivity.this,"비밀번호는 6자리 이상입니다.",Toast.LENGTH_SHORT).show();
                 } else if (strName.length() > 0) {
                     DataBaseRef.child("UserAccount").addListenerForSingleValueEvent(checkRegister);   //닉네임 중복 검사
                 }
-
             }
         });
 
@@ -157,7 +149,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     //인증메일 보내는 함수
@@ -174,9 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "인증메일 전송에 실패했습니다.", Toast.LENGTH_LONG).show();
                 }
             }
-
         });
-
     }
-
 }

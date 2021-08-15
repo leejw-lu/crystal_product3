@@ -15,11 +15,9 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "https://jitpack.io"}  //양성원 추가 캘린더 !!!!!1
+        maven { url "https://jitpack.io"}
         google()
         mavenCentral()
-        //jcenter() // Warning: this repository is going to shut down soon
-
     }
 }
 

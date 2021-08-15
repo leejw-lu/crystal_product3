@@ -153,19 +153,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     //ViewHolder 클래스
     class ViewHolder extends RecyclerView.ViewHolder
     {
-        //public TextView textViewUser;
         public TextView textViewTitle;
         public TextView textViewPrice;
         public TextView textViewDeadline;
         public TextView textViewDescription;
-        //public TextView textViewContactLink;
-        private TextView textViewPurchaseLink;
         public ImageView imageView;
         public ImageView imageViewHeart;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //textViewUser = itemView.findViewById(R.id.item_user);
             textViewTitle = itemView.findViewById(R.id.item_title); //파라메타 id 찾기
             textViewPrice = itemView.findViewById(R.id.item_price);
             textViewDeadline = itemView.findViewById(R.id.item_deadline);
