@@ -48,7 +48,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
 
     @Override
     public void onBackPressed() {
-        // doIt your code
         Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
     }
 
@@ -121,8 +120,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             }
         });
 
-
-
         //date input
         dateTv = (TextView) view.findViewById(R.id.deadline);
         Calendar calendar = Calendar.getInstance();
@@ -151,9 +148,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             }
         };
 
-
-        //date.setText(null);
-
         etDesc.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -172,9 +166,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
 
         return view;
     }
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -208,7 +199,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
     private void uploadImg(String uri)      //이미지와 글 업로드
     {
         try {
-            // Create a storage reference from our app
             StorageReference storageRef = storage.getReferenceFromUrl("gs://fir-emailaccount-7b951.appspot.com");
 
             Uri file = Uri.fromFile(new File(uri));
@@ -223,7 +213,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         throw task.getException();
                     }
 
-                    // Continue with the task to get the download URL
                     return riversRef.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -246,7 +235,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         imageDTO.setPurchaseLink(etPurchaseLink.getText().toString());
                         imageDTO.setPostid(database.getReference().child("Post").push().getKey());
                         imageDTO.setUid(mAuth.getCurrentUser().getUid());
-                        imageDTO.imageName=file.getLastPathSegment();   //imageName에 사진파일의 이름 넣기.
 
                         database.getReference().child("Post").push().setValue(imageDTO);
 
@@ -260,7 +248,6 @@ public class Frag4 extends Fragment implements IOnBackPressed {
                         startActivity(new Intent(getActivity(), MainActivity.class));
 
                     } else {
-                        // Handle failures
                         Toast.makeText(context,"업로드 되지 않았습니다.",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -271,7 +258,5 @@ public class Frag4 extends Fragment implements IOnBackPressed {
             Toast.makeText(context, "이미지 선택 안함", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 }

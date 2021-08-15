@@ -79,7 +79,6 @@ public class Frag5 extends Fragment {
 
         emptyLiked = (TextView) view.findViewById(R.id.emptyLiked);
 
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = (RecyclerView) view.findViewById(R.id.heart_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -93,7 +92,7 @@ public class Frag5 extends Fragment {
                 Intent intent = new Intent(getActivity(), ProductDetailPage.class); //fragment는 this못쓰기 때문에 get쓰기.
                 //intent했을때, productdetailpage.java 액티비티로 해당 post의 값 보내기
                 intent.putExtra("image",details.getImageUrl());
-                intent.putExtra("title",details.getTitle()); //jw추가
+                intent.putExtra("title",details.getTitle());
                 intent.putExtra("price",details.getPrice());
                 intent.putExtra("deadline",details.getDeadline());
                 intent.putExtra("form",details.getPurchaseLink());
@@ -107,8 +106,6 @@ public class Frag5 extends Fragment {
                 intent.putExtra("postuid",details.getUid());
                 //글 삭제 (Post밑의 토큰 삭제.)
                 intent.putExtra("postToken",pos);
-                intent.putExtra("imageName",details.getImageName());
-
                 startActivity(intent);
             }
         });
@@ -177,17 +174,16 @@ public class Frag5 extends Fragment {
         getHeart(); //관심상품목록 가져오기
 
 
-        ////// 하트 아이콘이 png 파일이라 코드로 색깔 변경 ////////////////
+        //하트 아이콘이 png 파일이라 코드로 색깔 변경
         ImageView heartIcon = (ImageView) view.findViewById(R.id.SecondIcon);
         int color = ContextCompat.getColor(getActivity(), R.color.mainPurple);
         heartIcon.setColorFilter(color);
 
-        /////이지현추가 - 관심상품 없을 때 안내 텍스트 표시 ///////////
+        //관심상품 없을 때 안내 텍스트 표시
         if(postList.size()==0)
             emptyLiked.setVisibility(View.VISIBLE);
 
-        ////////////////////////탈퇴버튼////////////////////////////
-
+        //탈퇴버튼
         btn_secession = view.findViewById(R.id.btn_secession);
         btn_secession.setOnClickListener(new View.OnClickListener() {
 
@@ -213,19 +209,11 @@ public class Frag5 extends Fragment {
             }
         });
 
-
-
         return view;
     }
 
-
-    //양성원 추가
-
-
     private void getHeart() {
-        //바로 아랫줄이 오류 코드임
-        // Kod dev 코드 >>
-        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(id);
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -274,7 +262,6 @@ public class Frag5 extends Fragment {
     }
 
     // 계정삭제 함수
-
    public void deleteID (){
         firebaseUser.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

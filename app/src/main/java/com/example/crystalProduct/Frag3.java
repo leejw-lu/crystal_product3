@@ -44,7 +44,6 @@ public class Frag3 extends Fragment {
     public TextView text_date;
 
     //커스텀 달력
-    public int count = 0;
     public MaterialCalendarView materialCalendarView;
 
     @Nullable
@@ -53,7 +52,6 @@ public class Frag3 extends Fragment {
     {
         view = inflater.inflate(R.layout.frag3_calendar, container,false);
 
-        //양
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_calendar);
         recyclerView.setHasFixedSize(true);
@@ -169,7 +167,7 @@ public class Frag3 extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 imageDTOList.clear();
-                //deadlineList.clear();
+
                 String deadline2;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){       //이거 하면 post의 토크값
                     ImageDTO imageDTO = snapshot.getValue(ImageDTO.class);

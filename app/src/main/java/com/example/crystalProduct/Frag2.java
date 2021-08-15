@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,8 +63,6 @@ public class Frag2 extends Fragment implements TextWatcher {
                 intent.putExtra("postuid",details.getUid());
                 //글 삭제 (Post밑의 토큰 삭제.)
                 intent.putExtra("postToken",pos);
-                intent.putExtra("imageName",details.getImageName());
-
                 startActivity(intent);
             }
         });
@@ -111,7 +107,6 @@ public class Frag2 extends Fragment implements TextWatcher {
 
     private void readTitles() {
 
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Post");
 
         reference.addValueEventListener(new ValueEventListener() {

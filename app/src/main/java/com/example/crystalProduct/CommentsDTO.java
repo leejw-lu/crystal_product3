@@ -1,13 +1,11 @@
 package com.example.crystalProduct;
 
 public class CommentsDTO {
+    private String comment;
+    private String publisher;
+    private String commentid;
 
-    private String comment;     //댓글
-    private String publisher;   //사용자uid
-    private String commentid;   //댓글마다 고유id 저장.
-
-    public CommentsDTO() { }
-
+    public CommentsDTO() { }    //생성자
     public CommentsDTO(String comment, String publisher) {
         this.comment = comment;
         this.publisher = publisher;

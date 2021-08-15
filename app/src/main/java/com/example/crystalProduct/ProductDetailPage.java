@@ -187,6 +187,7 @@ public class ProductDetailPage extends AppCompatActivity {
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailPage.this).create();
                     alertDialog.setTitle("작성하신 글을 삭제하시겠습니까?");
+
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -196,15 +197,7 @@ public class ProductDetailPage extends AppCompatActivity {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //사진이미지 먼저 Storage 지워주기.
-                            storage.getReference().child("images").child(imageName).delete().addOnSuccessListener(new OnSuccessListener<Object>() {
-                                @Override
-                                public void onSuccess(Object o) {
-                                    //해당글에 연관되는 글,댓글,수요조사,좋아요 삭제
-                                    deleteContent(postToken, postid);
-                                }
-                            });
-
+                            deleteContent(postToken, postid);
                             dialog.dismiss();
                         }
                     });

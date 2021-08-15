@@ -50,7 +50,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item, parent, false);
         return new CommentAdapter.ViewHolder(view);
-
     }
 
     @Override
@@ -134,10 +133,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 String name = snapshot.getValue(String.class);
                 username.setText(name);
 
-                if(postuid.equals(publisherid)) {    //댓글쓴 사람이 글쓴이이면 글쓴이 표시해주기.
+                if(postuid.equals(publisherid)) {    //댓글쓴 사람이 글쓴이이면 (글쓴이) 표시해주기.
                         writer.setVisibility(View.VISIBLE);
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

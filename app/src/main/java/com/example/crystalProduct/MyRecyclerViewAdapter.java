@@ -122,7 +122,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     List<ImageDTO> filteringList = new ArrayList<>();
                     for(ImageDTO name : un_imageDTOList) {
                         if(name.getTitle().toLowerCase().contains(charString.toLowerCase())) {
-                            filteringList.add(name);
+                            filteringList.add(0,name);  //최신순정렬()
                         }
                     }
                     imageDTOList = filteringList;

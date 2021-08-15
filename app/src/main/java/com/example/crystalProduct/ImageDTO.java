@@ -11,16 +11,6 @@ public class  ImageDTO {
     public String deadline;
     public String purchaseLink;
 
-    public String imageName;    //이미지 삭제를 위해 삭제할 이미지파일명 필요.
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
