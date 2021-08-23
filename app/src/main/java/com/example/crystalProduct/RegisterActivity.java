@@ -32,13 +32,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth FirebaseAuth;     //firebase인증
     private DatabaseReference DataBaseRef; //실시간데이터베이스
-    private EditText EtEmail,EtPwd,NickName;       //회원가입 입력필드
+    private EditText EtEmail,EtPwd,NickName, EtPwd2;       //회원가입 입력필드
     private Button nBtnRegister;            //회원가입 버튼
     private TextView registerText2;
 
     //회원가입 처리 시작
     private String strEmail;
     private String strPwd;
+    private String strPwd2;
     private String strName;
 
     private ValueEventListener checkRegister = new ValueEventListener() {
@@ -83,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                         //회원가입 완료후, edit_text 초기화하기
                         EtEmail.setText("");
                         EtPwd.setText("");
+                        EtPwd2.setText("");
                         NickName.setText("");
 
                         sendVerificationEmail();    //이메일 인증 보내기 함수
@@ -110,10 +112,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         EtEmail=findViewById(R.id.et_email);
         EtPwd=findViewById(R.id.et_pwd);
+        EtPwd2=findViewById(R.id.et_pwd2);
         NickName=findViewById(R.id.et_nickname);
 
         EtEmail.bringToFront();
         EtPwd.bringToFront();
+        EtPwd2.bringToFront();
         NickName.bringToFront();
 
         registerText2 = findViewById(R.id.registerText2);
@@ -126,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 strEmail = EtEmail.getText().toString();
                 strPwd = EtPwd.getText().toString();
+                strPwd2 = EtPwd2.getText().toString();
                 strName = NickName.getText().toString();
 
                 if (TextUtils.isEmpty(strEmail) || TextUtils.isEmpty(strPwd) || TextUtils.isEmpty(strName)) {
@@ -134,6 +139,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "성신여자대학교 이메일로 가입하세요.",Toast.LENGTH_SHORT).show();
                 } else if (strPwd.length() <6){
                     Toast.makeText(RegisterActivity.this,"비밀번호는 6자리 이상입니다.",Toast.LENGTH_SHORT).show();
+                } else if (!strPwd.equals(strPwd2)){
+                    Toast.makeText(RegisterActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                 } else if (strName.length() > 0) {
                     DataBaseRef.child("UserAccount").addListenerForSingleValueEvent(checkRegister);   //닉네임 중복 검사
                 }
