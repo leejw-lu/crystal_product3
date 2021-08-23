@@ -283,6 +283,29 @@ public class Frag5 extends Fragment {
         });
     }
 
+    private void deleteDemands() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Demands");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //postList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if(snapshot.child(firebaseUser.getUid()).exists())
+                        FirebaseDatabase.getInstance().getReference("Demands")
+                                .child(snapshot.getKey()).child(firebaseUser.getUid()).setValue(null);
+                    //FirebaseDatabase.getInstance().getReference("Likes").child(firebaseUser.getUid()).child(postid).setValue(null);
+                    //postList.add(snapshot.getKey());
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     // 계정삭제 함수
    public void deleteID (){
         firebaseUser.delete()
@@ -292,6 +315,7 @@ public class Frag5 extends Fragment {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "탈퇴 성공", Toast.LENGTH_SHORT).show();
                             FirebaseDatabase.getInstance().getReference("login").child("UserAccount").child(firebaseUser.getUid()).removeValue();
+                            deleteDemands();
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         }
                         else {
